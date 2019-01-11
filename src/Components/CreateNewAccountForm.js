@@ -27,7 +27,6 @@ class CreateNewAccountForm extends Component{
     }
     //need to dispatch my post new user action here
     this.props.createAccount(new_user_info)
-    console.log('handling new account...', new_user_info)
   }
 
   render(){
