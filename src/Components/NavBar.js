@@ -1,17 +1,28 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { NavLink } from 'react-router-dom'
+import { Menu } from 'semantic-ui-react'
 
-const NavBar = (props) =>{
-  return (
-    <div>
-      <NavLink exact to='/how_to_play' activeClassName="active item" className="item">How to Play</NavLink>
-        <br></br>
-      <NavLink exact to='' activeClassName="active item" className="item">Home</NavLink>
-        <br></br>
-        { props.currentUser ? <p>Log Out</p> : <NavLink exact to='sign_in' activeClassName="active item" className="item">Sign In</NavLink> }
-    </div>
-  )
+class NavBar extends Component{
+  state = {}
+
+  handleItemClick = (e, { name }) => this.setState({ activeItem: name})
+
+  render(){
+    const { activeItem } = this.state
+
+    return (
+    <Menu>
+      <Menu.Item name='home' active={activeItem === 'home'} onClick={this.handleItemClick} href='/'>Home
+      </Menu.Item>
+
+      <Menu.Item name='how_to_play' active={activeItem === 'how_to_play'} onClick={this.handleItemClick} href='/how_to_play'>How To Play
+      </Menu.Item>
+
+      <Menu.Menu position='right'>
+        { this.props.currentUser ? <><Menu.Item>{this.props.currentUser.username}</Menu.Item><Menu.Item name='log_out' active={activeItem === 'log_out'} onClick={this.handleItemClick}>Log Out</Menu.Item></> : <Menu.Item name='sign_in' active={activeItem === 'sign_in'} onClick={this.handleItemClick} href='/sign_in'>Sign In</Menu.Item> }
+      </Menu.Menu>
+    </Menu>
+  )}
 }
 
 const mapStateToProps = (state) =>{
