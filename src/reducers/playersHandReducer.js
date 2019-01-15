@@ -1,16 +1,15 @@
 export const playersHandReducer = (playersHand = [], action) =>{
   switch (action.type) {
-    case 'ROUND_ONE_PLAYER_DEAL':
-      let soldiers = action.shuffledSoldiers
-      let i = 0
-      let newDeal = [...playersHand]
-      while (newDeal.length < 7){
-        if (i % 2 === 0){
-          newDeal.push(soldiers[i])
-        } i++;
+    case 'ADD_SOLDIER_TO_PLAYERS_HAND':
+      console.log('adding soldier...', action.selectedSoldier)
+      let soldier = action.selectedSoldier
+      let newHand = [...playersHand]
+      if (playersHand.length < 5 && playersHand.includes(soldier) === false){
+        newHand.push(soldier)
+      } else {
+        alert('You can only enlist five soldiers and cannot enlist the same soldier twice.')
       }
-      console.log("player's hand...", newDeal)
-      return newDeal
+      return newHand
     default:
       return playersHand
   }

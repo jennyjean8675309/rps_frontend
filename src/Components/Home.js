@@ -5,9 +5,9 @@ import { Button } from 'semantic-ui-react';
 const Home = () =>{
   return (
     <div>
-      Welcome to Rock, Paper, Scissors - BATTLE!
+      <h1>Welcome to Rock, Paper, Scissors - FIGHT!</h1>
       <br></br>
-      <Link to='/round_one'><Button size='massive' color='green'>Play the Game!</Button></Link>
+      <Link to='/round_one'><Button size='massive' color='olive'>Play the Game!</Button></Link>
     </div>
   )
 }

@@ -6,8 +6,12 @@ import { setCurrentUserReducer } from './setCurrentUserReducer';
 import { showLoginReducer } from './showLoginReducer';
 import { setSoldierUpgradesReducer } from './setSoldierUpgradesReducer';
 import { setUsersReducer } from './setUsersReducer';
-import { computersHandReducer } from './computersHandReducer';
+import { roundOneComputerDealReducer } from './roundOneComputerDealReducer';
+import { roundOnePlayerDealReducer } from './roundOnePlayerDealReducer';
 import { playersHandReducer } from './playersHandReducer';
+import { computersHandReducer } from './computersHandReducer';
+import { soldierAndUpgradeDeckReducer } from './soldierAndUpgradeDeckReducer';
+import { roundTwoComputerDealReducer } from './roundTwoComputerDealReducer'
 
 const rootReducer = combineReducers({
   soldiers: setSoldiersReducer,
@@ -15,8 +19,12 @@ const rootReducer = combineReducers({
   showLogin: showLoginReducer,
   soldierUpgrades: setSoldierUpgradesReducer,
   users: setUsersReducer,
+  roundOneComputerDeal: roundOneComputerDealReducer,
+  roundOnePlayerDeal: roundOnePlayerDealReducer,
+  playersHand: playersHandReducer,
   computersHand: computersHandReducer,
-  playersHand: playersHandReducer
+  soldierAndUpgradeDeck: soldierAndUpgradeDeckReducer,
+  roundTwoComputerDeal: roundTwoComputerDealReducer
 });
 
 export default rootReducer;

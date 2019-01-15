@@ -6,6 +6,7 @@ import Home from './Components/Home';
 import HowToPlay from './Components/HowToPlay';
 import SignIn from './Components/SignIn';
 import RoundOne from './Components/RoundOne';
+import RoundTwo from './Components/RoundTwo'
 import { connect } from 'react-redux';
 import { fetchingToken, fetchingSoldiers, fetchingSoldierUpgrades, fetchingUsers } from './actions/actions';
 
@@ -24,6 +25,8 @@ class App extends Component {
       <div className='App'>
         <NavBar />
         <Switch>
+          <Route exact path='/round_two' component={RoundTwo } />
+
           <Route exact path='/round_one' component={RoundOne} />
 
           <Route exact path='/sign_in' component={SignIn} />

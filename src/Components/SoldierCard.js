@@ -4,7 +4,8 @@ import { Card, Image } from 'semantic-ui-react';
 class SoldierCard extends Component {
   render(){
     return (
-      <Card>
+      <Card id={this.props.soldier.id} onClick={() =>{ this.props.playerAddSoldier(this.props.soldier)
+      this.props.playerRemoveSoldier(this.props.soldier)}}>
         <Image src='/images/avatar/large/daniel.jpg' />
           <Card.Content>
             <Card.Header>{this.whichSoldier(this.props.soldier)}</Card.Header>
@@ -20,7 +21,7 @@ class SoldierCard extends Component {
     if (id === 1){
       return 'Pebble'
     } else if (id === 2){
-      return '10 lb. Weight'
+      return 'Looseleaf'
     } else {
       return 'Kid Scissors'
     }
