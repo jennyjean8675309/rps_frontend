@@ -18,7 +18,7 @@ class RoundOne extends Component {
         <Grid>
           <Grid.Row columns={7}>
             {this.props.roundOnePlayerDeal.map(soldier =>(
-              <Grid.Column key={soldier.id}>
+              <Grid.Column key={`${soldier.points}-${soldier.id}`}>
                 <SoldierCard
                   soldier={soldier}
                   playerAddSoldier={this.props.playerAddSoldier}
@@ -34,7 +34,7 @@ class RoundOne extends Component {
           <Grid>
             <Grid.Row columns={5}>
               {this.props.playersHand.map(soldier =>(
-                <Grid.Column key={soldier.id}>
+                <Grid.Column key={`${soldier.points}-${soldier.id}`}>
                   <SoldierCard
                     soldier={soldier} />
                 </Grid.Column>
@@ -42,7 +42,7 @@ class RoundOne extends Component {
             </Grid.Row>
           </Grid>
 
-          <Link to="/round_two"><Button size='large' color='olive' onClick={() =>{
+          <Link to='/round_two'><Button size='large' color='olive' onClick={() =>{
             this.props.computerSelection(this.props.roundOneComputerDeal)
           }}>
           Done!

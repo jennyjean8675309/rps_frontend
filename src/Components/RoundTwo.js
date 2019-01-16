@@ -1,22 +1,13 @@
 import React, {Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Button, Grid } from 'semantic-ui-react';
-import { reduceSoldierDeckAfterRound, combineSoldierAndUpgradeDeck, roundTwoComputerDeal } from '../actions/actions';
+import { setCombinedDeck, roundTwoComputerDeal, roundTwoPlayerDeal, addSoldierOrUpgradeToPlayersHand, removeSoldierFromPlayersSecondDeal, computerSelectsUpgrades } from '../actions/actions';
+import SoldierCard from './SoldierCard';
 
 class RoundTwo extends Component {
   componentDidMount(){
-    this.props.reduceSoldierDeck(this.props.playersHand, this.props.computersHand)
-  }
-
-  // componentDidUpdate(){
-  //   this.dealCards(this.props.soldierAndUpgradeDeck)
-  // }
-  //Can't use componentDidUpdate() - maybe an in-between call with thunk middleware???
-  //I want to deal the cards on button click, but instead, I'm calling .combineDecks, which adds the soldiers
-  //to the upgrades and shuffles them
-
-  dealCards = (combinedDeck) =>{
-    this.props.secondComputerDeal(combinedDeck)
+    this.combineDecksAndShuffle(this.props.soldiers, this.props.upgrades)
   }
 
   render(){
@@ -25,12 +16,72 @@ class RoundTwo extends Component {
         <h1>Training Phase!</h1>
 
         <Button size='large' color='olive' onClick={() =>{
-        this.props.combineDecks(this.props.soldiers, this.props.upgrades)
+            this.props.secondPlayerDeal(this.props.soldierAndUpgradeDeck)
+            this.props.secondComputerDeal(this.props.soldierAndUpgradeDeck)
         }}>
         Deal Me Some Soldier Upgrades
         </Button>
+
+        <Grid>
+          <Grid.Row columns={7}>
+            {this.props.roundTwoPlayerDeal.map(soldier =>(
+              <Grid.Column key={`${soldier.points}-${soldier.id}`}>
+                <SoldierCard
+                  soldier={soldier}
+                  playerAddSoldier={this.props.playerAddSolderOrUpgrade}
+                  playerRemoveSoldier={this.props.playerRemoveSoldier}
+                   />
+              </Grid.Column>
+              ))}
+          </Grid.Row>
+        </Grid>
+
+        <h2>Click on 5 upgrade and/or soldier cards to add them to your hand.</h2>
+        <h2>Your hand...</h2>
+
+        <Grid>
+          <Grid.Row columns={5}>
+            {this.props.playersHand.slice (0, 5).map(soldier =>(
+              <Grid.Column key={`${soldier.points}-${soldier.id}`}>
+                <SoldierCard
+                  soldier={soldier} />
+              </Grid.Column>
+              ))}
+          </Grid.Row>
+          <Grid.Row columns={5}>
+            {this.props.playersHand.slice(5).map(soldier =>(
+              <Grid.Column key={`${soldier.points}-${soldier.id}`}>
+                <SoldierCard
+                  soldier={soldier} />
+              </Grid.Column>
+              ))}
+          </Grid.Row>
+        </Grid>
+
+        <Link to='/final_round'><Button size='large' color='olive' onClick={() =>{
+            this.props.computerSelectsUpgrades(this.props.computerDealRoundTwo, this.props.computersHand)
+          }}>Done!</Button></Link>
       </div>
     )
+  }
+
+  combineDecksAndShuffle = (soldiers, upgrades) =>{
+    console.log("taking players' cards out of soldier deck...")
+    let playersCards = [...this.props.playersHand, ...this.props.computersHand]
+    console.log(playersCards)
+    let reducedSoldiers = soldiers.filter(soldier => playersCards.includes(soldier) === false )
+    console.log('combining soldiers with upgrades...')
+    let combinedDeck = [...reducedSoldiers, ...upgrades]
+    let count = combinedDeck.length;
+    let t;
+    let i;
+    while (count){
+      i = Math.floor(Math.random() * count--);
+      t = combinedDeck[count];
+      combinedDeck[count] = combinedDeck[i];
+      combinedDeck[i] = t;
+    }
+    this.props.combineDecks(combinedDeck)
   }
 }
 
@@ -40,12 +91,17 @@ const mapStateToProps = (state) =>{
   computersHand: state.computersHand,
   upgrades: state.soldierUpgrades,
   soldierAndUpgradeDeck: state.soldierAndUpgradeDeck,
-  computerDealRoundTwo: state.roundTwoComputerDeal
+  computerDealRoundTwo: state.roundTwoComputerDeal,
+  combinedDeck: state.soldierAndUpgradeDeck,
+  roundTwoPlayerDeal: state.roundTwoPlayerDeal
   }
 }
 
 export default connect(mapStateToProps, {
-  reduceSoldierDeck: reduceSoldierDeckAfterRound,
-  combineDecks: combineSoldierAndUpgradeDeck,
-  secondComputerDeal: roundTwoComputerDeal
+  combineDecks: setCombinedDeck,
+  secondComputerDeal: roundTwoComputerDeal,
+  secondPlayerDeal: roundTwoPlayerDeal,
+  playerAddSolderOrUpgrade: addSoldierOrUpgradeToPlayersHand,
+  playerRemoveSoldier: removeSoldierFromPlayersSecondDeal,
+  computerSelectsUpgrades: computerSelectsUpgrades
 })(RoundTwo)

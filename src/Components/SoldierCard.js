@@ -4,26 +4,61 @@ import { Card, Image } from 'semantic-ui-react';
 class SoldierCard extends Component {
   render(){
     return (
-      <Card id={this.props.soldier.id} onClick={() =>{ this.props.playerAddSoldier(this.props.soldier)
+      <Card id={`${this.props.soldier.points}-${this.props.soldier.id}`} onClick={() =>{ this.props.playerAddSoldier(this.props.soldier)
       this.props.playerRemoveSoldier(this.props.soldier)}}>
         <Image src='/images/avatar/large/daniel.jpg' />
           <Card.Content>
             <Card.Header>{this.whichSoldier(this.props.soldier)}</Card.Header>
             <Card.Meta>Soldier Type: {this.whichType(this.props.soldier)}</Card.Meta>
-            <Card.Description>Enlist this soldier for 2 points.</Card.Description>
+            <Card.Description>{this.howManyPoints(this.props.soldier)}</Card.Description>
          </Card.Content>
       </Card>
     )
   }
 
+  howManyPoints = (soldier) =>{
+    let id = soldier.soldier_type_id
+    if (id === 1){
+      if (soldier.points === 2){
+        return 'Enlist this soldier for 2 points'
+      } else {
+        return 'Upgrade any Pebble for an additional 3 points'
+      }
+    } else if (id === 2){
+      if (soldier.points === 2){
+        return 'Enlist this soldier for 2 points'
+      } else {
+        return 'Upgrade any Looseleaf for an additional 3 points'
+      }
+    } else {
+      if (soldier.points === 2){
+        return 'Kid Scissors'
+      } else {
+        return 'Upgrade any Kid Scissors for an additional 3 points'
+      }
+    }
+  }
+
   whichSoldier = (soldier) =>{
     let id = soldier.soldier_type_id
     if (id === 1){
-      return 'Pebble'
+      if (soldier.points === 2){
+        return 'Pebble'
+      } else {
+        return 'Stone'
+      }
     } else if (id === 2){
-      return 'Looseleaf'
+      if (soldier.points === 2){
+        return 'Looseleaf'
+      } else {
+        return 'Laminated'
+      }
     } else {
-      return 'Kid Scissors'
+      if (soldier.points === 2){
+        return 'Kid Scissors'
+      } else {
+        return 'Pointy Scissors'
+      }
     }
   }
 

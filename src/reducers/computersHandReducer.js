@@ -21,6 +21,33 @@ export const computersHandReducer = (computersHand = [], action) =>{
       //   return a.value - b.value;
       // })
       return [...action.computersDeal.slice(0, 5)]
+    case 'COMPUTER_SELECTS_UPGRADES':
+      console.log('computer choosing...', action.computersDeal, action.computersHand)
+      // let types = []
+      // action.computersHand.forEach(card => types.push(card.soldier_type_id))
+      // console.log(types)
+      // let newHand = [...computersHand]
+      // action.computersDeal.forEach(card =>{
+      //   while (newHand.length < 10 && newHand.includes(card) === false){
+      //     if (types.includes(card.soldier_type_id) && card.points === 3){
+      //       newHand.push(card)
+      //     }
+      //   }
+      //   while (newHand.length < 10 && newHand.includes(card) === false){
+      //     if (types.includes(card.soldier_type_id) && card.points === 2){
+      //       newHand.push(card)
+      //     }
+      //   }
+      //   while (newHand.length < 10 && newHand.includes(card) === false){
+      //     newHand.push(card)
+      //   }
+      // console.log(newHand)
+      // })
+      return [...computersHand, ...action.computersDeal.slice(0, 5)]
+    case 'COMPUTER_DEPLOY_ARMY':
+      console.log("computer making it's choice...", action.selectedArmy)
+      let army = [...computersHand].filter(card => card.soldier_type_id === action.selectedArmy)
+      return army
     default:
       return computersHand
   }

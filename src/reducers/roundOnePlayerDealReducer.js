@@ -9,12 +9,10 @@ export const roundOnePlayerDealReducer = (roundOnePlayerDeal = [], action) =>{
           newDeal.push(soldiers[i])
         } i++;
       }
-      console.log("player's hand...", newDeal)
       return newDeal
     case 'REMOVE_SOLDIER_FROM_PLAYERS_FIRST_DEAL':
       let discard = [...roundOnePlayerDeal]
       let index = discard.indexOf(action.selectedSoldier)
-      console.log(index)
       return [...discard.slice(0, index), ...discard.slice(index + 1)]
     default:
       return roundOnePlayerDeal

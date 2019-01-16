@@ -1,7 +1,6 @@
 export const playersHandReducer = (playersHand = [], action) =>{
   switch (action.type) {
     case 'ADD_SOLDIER_TO_PLAYERS_HAND':
-      console.log('adding soldier...', action.selectedSoldier)
       let soldier = action.selectedSoldier
       let newHand = [...playersHand]
       if (playersHand.length < 5 && playersHand.includes(soldier) === false){
@@ -10,6 +9,27 @@ export const playersHandReducer = (playersHand = [], action) =>{
         alert('You can only enlist five soldiers and cannot enlist the same soldier twice.')
       }
       return newHand
+    case 'ADD_SOLDIER_OR_UPGRADE_TO_PLAYERS_HAND':
+      console.log('adding card...', action.card)
+      let card = action.card
+      let updatedHand = [...playersHand]
+      if (playersHand.length < 10 && playersHand.includes(card) === false){
+        updatedHand.push(card)
+      } else {
+        alert('You can only choose five cards and cannot choose the same card twice.')
+      }
+      return updatedHand
+    case 'PLAYER_DEPLOY_ARMY':
+      let selection = action.selectedArmy
+      let choice = [...playersHand]
+      console.log('deploying army...', choice, selection)
+      if (selection === 'Rock'){
+        return choice.filter(card => card.soldier_type_id === 1)
+      } else if (selection === 'Paper'){
+        return choice.filter(card => card.soldier_type_id === 2)
+      } else if (selection === 'Scissors'){
+        return choice.filter(card => card.soldier_type_id === 3)
+      }
     default:
       return playersHand
   }

@@ -12,6 +12,7 @@ import { playersHandReducer } from './playersHandReducer';
 import { computersHandReducer } from './computersHandReducer';
 import { soldierAndUpgradeDeckReducer } from './soldierAndUpgradeDeckReducer';
 import { roundTwoComputerDealReducer } from './roundTwoComputerDealReducer'
+import { roundTwoPlayerDealReducer } from './roundTwoPlayerDealReducer'
 
 const rootReducer = combineReducers({
   soldiers: setSoldiersReducer,
@@ -24,7 +25,8 @@ const rootReducer = combineReducers({
   playersHand: playersHandReducer,
   computersHand: computersHandReducer,
   soldierAndUpgradeDeck: soldierAndUpgradeDeckReducer,
-  roundTwoComputerDeal: roundTwoComputerDealReducer
+  roundTwoComputerDeal: roundTwoComputerDealReducer,
+  roundTwoPlayerDeal: roundTwoPlayerDealReducer
 });
 
 export default rootReducer;

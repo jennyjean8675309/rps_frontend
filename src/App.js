@@ -7,6 +7,7 @@ import HowToPlay from './Components/HowToPlay';
 import SignIn from './Components/SignIn';
 import RoundOne from './Components/RoundOne';
 import RoundTwo from './Components/RoundTwo'
+import FinalRound from './Components/FinalRound'
 import { connect } from 'react-redux';
 import { fetchingToken, fetchingSoldiers, fetchingSoldierUpgrades, fetchingUsers } from './actions/actions';
 
@@ -25,7 +26,9 @@ class App extends Component {
       <div className='App'>
         <NavBar />
         <Switch>
-          <Route exact path='/round_two' component={RoundTwo } />
+          <Route exact path='/final_round' component={FinalRound} />
+
+          <Route exact path='/round_two' component={RoundTwo} />
 
           <Route exact path='/round_one' component={RoundOne} />
 

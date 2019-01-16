@@ -9,6 +9,7 @@ export const roundTwoComputerDealReducer = (roundTwoComputerDeal = [], action) =
           newDeal.push(upgrades[i])
         } i++;
       }
+      console.log(newDeal)
       return newDeal
     default:
       return roundTwoComputerDeal

@@ -18,9 +18,14 @@ const ROUND_ONE_PLAYER_DEAL = 'ROUND_ONE_PLAYER_DEAL'
 const ADD_SOLDIER_TO_PLAYERS_HAND = 'ADD_SOLDIER_TO_PLAYERS_HAND'
 const REMOVE_SOLDIER_FROM_PLAYERS_FIRST_DEAL = 'REMOVE_SOLDIER_FROM_PLAYERS_FIRST_DEAL'
 const COMPUTER_SELECTS_SOLDIERS = 'COMPUTER_SELECTS_SOLDIERS'
-const REDUCE_SOLDIER_DECK_AFTER_ROUND = 'REDUCE_SOLDIER_DECK_AFTER_ROUND'
-const COMBINE_SOLDIER_AND_UPGRADE_DECK = 'COMBINE_SOLDIER_AND_UPGRADE_DECK'
+const SET_COMBINED_DECK = 'SET_COMBINED_DECK'
 const ROUND_TWO_COMPUTER_DEAL = 'ROUND_TWO_COMPUTER_DEAL'
+const ROUND_TWO_PLAYER_DEAL = 'ROUND_TWO_PLAYER_DEAL'
+const ADD_SOLDIER_OR_UPGRADE_TO_PLAYERS_HAND = 'ADD_SOLDIER_OR_UPGRADE_TO_PLAYERS_HAND'
+const REMOVE_SOLDIER_FROM_PLAYERS_SECOND_DEAL = 'REMOVE_SOLDIER_FROM_PLAYERS_SECOND_DEAL'
+const COMPUTER_SELECTS_UPGRADES = 'COMPUTER_SELECTS_UPGRADES'
+const PLAYER_DEPLOY_ARMY = 'PLAYER_DEPLOY_ARMY'
+const COMPUTER_DEPLOY_ARMY = 'COMPUTER_DEPLOY_ARMY'
 
 const setSoldiers = (soldierData) =>{
   return { type: SET_SOLDIERS, soldiers: soldierData };
@@ -66,16 +71,37 @@ const computerSelectsSoldiers = (computersDeal) =>{
   return { type: COMPUTER_SELECTS_SOLDIERS, computersDeal: computersDeal }
 }
 
-const reduceSoldierDeckAfterRound = (playersHand, computersHand) =>{
-  return { type: REDUCE_SOLDIER_DECK_AFTER_ROUND, playersHand: playersHand, computersHand: computersHand }
-}
-
-const combineSoldierAndUpgradeDeck = (soldiers, upgrades) =>{
-  return { type: COMBINE_SOLDIER_AND_UPGRADE_DECK, soldiers: soldiers, upgrades: upgrades }
+const setCombinedDeck = (combinedDeck) =>{
+  return { type: SET_COMBINED_DECK, combinedDeck: combinedDeck }
 }
 
 const roundTwoComputerDeal = (combinedDeck) =>{
   return { type: ROUND_TWO_COMPUTER_DEAL, combinedDeck: combinedDeck }
+}
+
+const roundTwoPlayerDeal = (combinedDeck) =>{
+  return { type: ROUND_TWO_PLAYER_DEAL, combinedDeck: combinedDeck }
+}
+
+const addSoldierOrUpgradeToPlayersHand =
+(card) =>{
+  return { type: ADD_SOLDIER_OR_UPGRADE_TO_PLAYERS_HAND, card: card }
+}
+
+const removeSoldierFromPlayersSecondDeal = (selectedCard) =>{
+  return { type: REMOVE_SOLDIER_FROM_PLAYERS_SECOND_DEAL, selectedCard: selectedCard }
+}
+
+const computerSelectsUpgrades = (computersSecondDeal, computersHand) =>{
+  return { type: COMPUTER_SELECTS_UPGRADES, computersDeal: computersSecondDeal, computersHand: computersHand }
+}
+
+const playerDeployArmy = (selectedArmy) =>{
+  return { type: PLAYER_DEPLOY_ARMY, selectedArmy: selectedArmy }
+}
+
+const computerDeployArmy = (selectedArmy) =>{
+  return { type: COMPUTER_DEPLOY_ARMY, selectedArmy: selectedArmy }
 }
 
 const postingLogin = (user_info) =>{
@@ -118,7 +144,6 @@ const postingNewUser = (new_user_info) =>{
       console.log(user)
       dispatch(addUser(user))
       dispatch(setCurrentUser(user))
-      //need to add this new user to the store in the users' array and set them up as the current user
     })
   }
 }
@@ -174,4 +199,4 @@ const fetchingUsers = () =>{
   }
 }
 
-export { setSoldiers, postingLogin, postingNewUser, fetchingToken, fetchingSoldiers, fetchingSoldierUpgrades, fetchingUsers, roundOneComputerDeal, roundOnePlayerDeal, addSoldierToPlayersHand, removeSoldierFromPlayersFirstDeal, computerSelectsSoldiers, reduceSoldierDeckAfterRound, combineSoldierAndUpgradeDeck, roundTwoComputerDeal };
+export { setSoldiers, postingLogin, postingNewUser, fetchingToken, fetchingSoldiers, fetchingSoldierUpgrades, fetchingUsers, roundOneComputerDeal, roundOnePlayerDeal, addSoldierToPlayersHand, removeSoldierFromPlayersFirstDeal, computerSelectsSoldiers, setCombinedDeck, roundTwoComputerDeal, roundTwoPlayerDeal, addSoldierOrUpgradeToPlayersHand, removeSoldierFromPlayersSecondDeal, computerSelectsUpgrades, playerDeployArmy, computerDeployArmy };
