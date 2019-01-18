@@ -1,18 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { Form, Radio, Grid, Button } from 'semantic-ui-react';
 import SoldierCard from './SoldierCard';
-import { playerDeployArmy, computerDeployArmy } from '../actions/actions'
+import { playerDeployArmy, computerDeployArmy, setPlayersScore, setPlayersArmy, setComputersScore, setComputersArmy } from '../actions/actions'
+
 class FinalRound extends Component {
-  state = {
-    playersScore: 0
-  }
+  state = {}
 
   handleChange = (e, { value }) =>{
     this.setState({ value })
     this.props.playerSelectArmy(e.currentTarget.firstElementChild.value)
+    this.props.playerSetArmy(Number(e.currentTarget.firstElementChild.id))
     this.tallyPlayersScore(this.props.playersHand)
-    this.props.computerSelectArmy(this.tallyComputersScores(this.props.computersHand))
+    let computersArmy = this.tallyComputersScores(this.props.computersHand)[0]
+    let computersScore = this.tallyComputersScores(this.props.computersHand)[1]
+    console.log(e.currentTarget.firstElementChild.id)
+    this.props.computerSelectArmy(computersArmy)
+    this.props.computerSetScore(computersScore)
+    this.props.computerSetArmy(computersArmy)
   }
 
   render(){
@@ -47,6 +53,7 @@ class FinalRound extends Component {
           </Form.Field>
           <Form.Field>
             <Radio
+              id='1'
               label='Rock'
               name='radioGroup'
               value='Rock'
@@ -56,6 +63,7 @@ class FinalRound extends Component {
           </Form.Field>
           <Form.Field>
             <Radio
+              id='2'
               label='Paper'
               name='radioGroup'
               value='Paper'
@@ -65,6 +73,7 @@ class FinalRound extends Component {
           </Form.Field>
           <Form.Field>
             <Radio
+              id='3'
               label='Scissors'
               name='radioGroup'
               value='Scissors'
@@ -74,11 +83,11 @@ class FinalRound extends Component {
           </Form.Field>
         </Form>
 
-        <h2>{`Your current score is ${this.tallyPlayersScore(this.props.playersHand)}`}</h2>
-
         <h2>Computer is deciding which army to deploy...</h2>
 
-        <Button size='large' color='olive'>Fight!</Button>
+        <Link to='/fight'><Button size='large' color='olive' onClick={() => {
+          this.props.playerSetScore(this.tallyPlayersScore(this.props.playersHand))
+        }}>Fight!</Button></Link>
       </div>
     )
   }
@@ -94,7 +103,8 @@ class FinalRound extends Component {
     } else {
       upgradesCount = upgrades.length
     }
-    return score + (upgradesCount * 3)
+    score = score + (upgradesCount * 3)
+    return score
   }
 
   tallyComputersScores = (computersHand) =>{
@@ -138,11 +148,11 @@ class FinalRound extends Component {
     scissorsScore = scissorsScore + (scissorsUpgradesCount * 3)
     console.log('scissors', scissorsScore)
     if (rockScore >= paperScore && rockScore >= scissorsScore){
-      return 1
+      return [1, rockScore]
     } else if (paperScore >= rockScore && paperScore >= scissorsScore){
-      return 2
+      return [2, paperScore]
     } else {
-      return 3
+      return [3, scissorsScore]
     }
   }
 }
@@ -150,11 +160,17 @@ class FinalRound extends Component {
 const mapStateToProps = (state) =>{
   return {
     playersHand: state.playersHand,
-    computersHand: state.computersHand
+    computersHand: state.computersHand,
+    playersScore: state.playersScore,
+    computersScore: state.computersScore
   }
 }
 
 export default connect(mapStateToProps, {
   playerSelectArmy: playerDeployArmy,
-  computerSelectArmy: computerDeployArmy
+  computerSelectArmy: computerDeployArmy,
+  playerSetScore: setPlayersScore,
+  playerSetArmy: setPlayersArmy,
+  computerSetScore: setComputersScore,
+  computerSetArmy: setComputersArmy
 })(FinalRound);

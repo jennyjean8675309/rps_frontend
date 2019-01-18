@@ -1,11 +1,23 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Menu } from 'semantic-ui-react'
+import { logoutUser } from '../actions/actions'
 
 class NavBar extends Component{
   state = {}
 
-  handleItemClick = (e, { name }) => this.setState({ activeItem: name})
+  handleItemClick = (e, { name }) =>{
+    this.setState({ activeItem: name})
+    if (name === 'log_out'){
+      this.logOut(this.props.currentUser)
+    }
+  }
+
+  logOut = (user) =>{
+    console.log('logging out...', user)
+    this.props.logout()
+    localStorage.clear()
+  }
 
   render(){
     const { activeItem } = this.state
@@ -27,8 +39,11 @@ class NavBar extends Component{
 
 const mapStateToProps = (state) =>{
   return {
-    currentUser: state.currentUser
+    currentUser: state.currentUser,
+    showLogin: state.showLogin
   }
 }
 
-export default connect(mapStateToProps)(NavBar);
+export default connect(mapStateToProps, {
+  logout: logoutUser
+})(NavBar);

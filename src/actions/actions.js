@@ -26,6 +26,13 @@ const REMOVE_SOLDIER_FROM_PLAYERS_SECOND_DEAL = 'REMOVE_SOLDIER_FROM_PLAYERS_SEC
 const COMPUTER_SELECTS_UPGRADES = 'COMPUTER_SELECTS_UPGRADES'
 const PLAYER_DEPLOY_ARMY = 'PLAYER_DEPLOY_ARMY'
 const COMPUTER_DEPLOY_ARMY = 'COMPUTER_DEPLOY_ARMY'
+const SET_PLAYERS_SCORE = 'SET_PLAYERS_SCORE'
+const SET_PLAYERS_ARMY = 'SET_PLAYERS_ARMY'
+const SET_COMPUTERS_SCORE = 'SET_COMPUTERS_SCORE'
+const SET_COMPUTERS_ARMY = 'SET_COMPUTERS_ARMY'
+const SET_PLAYERS_FINAL_SCORE = 'SET_PLAYERS_FINAL_SCORE'
+const SET_COMPUTERS_FINAL_SCORE = 'SET_COMPUTERS_FINAL_SCORE'
+const LOGOUT = 'LOGOUT'
 
 const setSoldiers = (soldierData) =>{
   return { type: SET_SOLDIERS, soldiers: soldierData };
@@ -104,6 +111,34 @@ const computerDeployArmy = (selectedArmy) =>{
   return { type: COMPUTER_DEPLOY_ARMY, selectedArmy: selectedArmy }
 }
 
+const setPlayersScore = (playersScore) =>{
+  return { type: SET_PLAYERS_SCORE, playersScore: playersScore }
+}
+
+const setPlayersArmy = (playersArmy) =>{
+  return { type: SET_PLAYERS_ARMY, playersArmy: playersArmy }
+}
+
+const setComputersScore = (computersScore) =>{
+  return { type: SET_COMPUTERS_SCORE, computersScore: computersScore }
+}
+
+const setComputersArmy = (computersArmy) =>{
+  return { type: SET_COMPUTERS_ARMY, computersArmy: computersArmy }
+}
+
+const setPlayersFinalScore = (bonusPoints) =>{
+  return { type: SET_PLAYERS_FINAL_SCORE, bonusPoints: bonusPoints }
+}
+
+const setComputersFinalScore = (bonusPoints) =>{
+  return { type: SET_COMPUTERS_FINAL_SCORE, bonusPoints: bonusPoints }
+}
+
+const logoutUser = () =>{
+  return { type: LOGOUT }
+}
+
 const postingLogin = (user_info) =>{
   return (dispatch) =>{
   fetch(LOGIN_URL, {
@@ -140,10 +175,13 @@ const postingNewUser = (new_user_info) =>{
     })
     .then(response => response.json())
     .then(data => {
+      if (data.error) {
+        alert(`${data.error}`)
+      } else {
       let user = data.user
       console.log(user)
       dispatch(addUser(user))
-      dispatch(setCurrentUser(user))
+      dispatch(setCurrentUser(user))}
     })
   }
 }
@@ -199,4 +237,4 @@ const fetchingUsers = () =>{
   }
 }
 
-export { setSoldiers, postingLogin, postingNewUser, fetchingToken, fetchingSoldiers, fetchingSoldierUpgrades, fetchingUsers, roundOneComputerDeal, roundOnePlayerDeal, addSoldierToPlayersHand, removeSoldierFromPlayersFirstDeal, computerSelectsSoldiers, setCombinedDeck, roundTwoComputerDeal, roundTwoPlayerDeal, addSoldierOrUpgradeToPlayersHand, removeSoldierFromPlayersSecondDeal, computerSelectsUpgrades, playerDeployArmy, computerDeployArmy };
+export { setSoldiers, postingLogin, postingNewUser, fetchingToken, fetchingSoldiers, fetchingSoldierUpgrades, fetchingUsers, roundOneComputerDeal, roundOnePlayerDeal, addSoldierToPlayersHand, removeSoldierFromPlayersFirstDeal, computerSelectsSoldiers, setCombinedDeck, roundTwoComputerDeal, roundTwoPlayerDeal, addSoldierOrUpgradeToPlayersHand, removeSoldierFromPlayersSecondDeal, computerSelectsUpgrades, playerDeployArmy, computerDeployArmy, setPlayersScore, setPlayersArmy, setComputersScore, setComputersArmy, setPlayersFinalScore, setComputersFinalScore, logoutUser };

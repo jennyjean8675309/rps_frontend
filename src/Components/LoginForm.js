@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
+import { Button, Form } from 'semantic-ui-react';
 import { postingLogin } from '../actions/actions';
 
 class LoginForm extends Component{
@@ -23,25 +25,28 @@ class LoginForm extends Component{
       username: this.state.username,
       password: this.state.password
     }
-    //also need to clear my login form after submit
-    //need to dispatch my login action here
     this.props.fetchUser(user_info);
-    console.log("submitting user's authentications...")
   }
 
   render(){
     return (
       <div>
-        <form onSubmit={(e) => this.handleSubmit(e)}>
-          <input type='text' name='username' placeholder='username' onChange={(e) => this.handleOnChange(e)}/>
-          <br></br>
-          <input type='password' name='password' placeholder='password' onChange={(e) => this.handleOnChange(e)}/>
-          <br></br>
-          <input type='submit' value='Login'/>
-        </form>
+        <h2>Login</h2>
+        <Form onSubmit={(e) => this.handleSubmit(e)}>
+          <Form.Input icon='user' iconPosition='left' placeholder='Username' type='text' name='username' onChange={(e) => this.handleOnChange(e)} />
+
+          <Form.Input icon='lock' iconPosition='left' placeholder='Password' type='password' name='password' onChange={(e) => this.handleOnChange(e)} />
+
+          <Button content='Login' color='olive' type='submit' value='Login' >{ this.props.currentUser ? <Redirect to='/home' /> : null }</Button>
+        </Form>
       </div>
     )
   }
 }
 
-export default connect(null, { fetchUser: postingLogin })(LoginForm);
+const mapStateToProps = (state) =>{
+  return { currentUser: state.currentUser
+  }
+}
+
+export default connect(mapStateToProps, { fetchUser: postingLogin })(LoginForm);

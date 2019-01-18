@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
+import { Button, Form } from 'semantic-ui-react';
 import { postingNewUser } from '../actions/actions';
 
 class CreateNewAccountForm extends Component{
@@ -23,22 +24,22 @@ class CreateNewAccountForm extends Component{
       username: this.state.username,
       password: this.state.password,
       high_score: 0
+      }
     }
-    }
-    //need to dispatch my post new user action here
     this.props.createAccount(new_user_info)
   }
 
   render(){
     return (
       <div>
-        <form onSubmit={(e) => this.handleSubmit(e)}>
-          <input type='text' name='username' placeholder='username' onChange={(e) => this.handleOnChange(e)}/>
-          <br></br>
-          <input type='password' name='password' placeholder='password' onChange={(e) => this.handleOnChange(e)}/>
-          <br></br>
-          <input type='submit' value='Create' />
-        </form>
+        <h2>Create a New Account</h2>
+        <Form onSubmit={(e) => this.handleSubmit(e)}>
+          <Form.Input icon='user' iconPosition='left' placeholder='Username' type='text' name='username' onChange={(e) => this.handleOnChange(e)} />
+
+          <Form.Input icon='lock' iconPosition='left' placeholder='Password' type='password' name='password' onChange={(e) => this.handleOnChange(e)} />
+
+          <Button content='Create' color='olive' type='submit' value='Create'/>
+        </Form>
       </div>
     )
   }

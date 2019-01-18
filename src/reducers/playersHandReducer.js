@@ -30,6 +30,7 @@ export const playersHandReducer = (playersHand = [], action) =>{
       } else if (selection === 'Scissors'){
         return choice.filter(card => card.soldier_type_id === 3)
       }
+      break
     default:
       return playersHand
   }

@@ -32,7 +32,7 @@ class SoldierCard extends Component {
       }
     } else {
       if (soldier.points === 2){
-        return 'Kid Scissors'
+        return 'Enlist this soldier for 2 points'
       } else {
         return 'Upgrade any Kid Scissors for an additional 3 points'
       }
