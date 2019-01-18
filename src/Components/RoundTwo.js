@@ -6,6 +6,13 @@ import { setCombinedDeck, roundTwoComputerDeal, roundTwoPlayerDeal, addSoldierOr
 import SoldierCard from './SoldierCard';
 
 class RoundTwo extends Component {
+  constructor(){
+    super()
+    this.state = {
+      cardsDealt: false
+    }
+  }
+
   componentDidMount(){
     this.combineDecksAndShuffle(this.props.soldiers, this.props.upgrades)
   }
@@ -15,9 +22,13 @@ class RoundTwo extends Component {
       <div>
         <h1>Training Phase!</h1>
 
+        <h2>Click on 5 upgrade and/or soldier cards to add them to your hand.</h2>
+
         <Button size='large' color='olive' onClick={() =>{
+            if (this.state.cardsDealt === false) {
             this.props.secondPlayerDeal(this.props.soldierAndUpgradeDeck)
-            this.props.secondComputerDeal(this.props.soldierAndUpgradeDeck)
+            this.setState({ cardsDealt: true })
+            this.props.secondComputerDeal(this.props.soldierAndUpgradeDeck)}
         }}>
         Deal Me Some Soldier Upgrades
         </Button>
@@ -26,17 +37,18 @@ class RoundTwo extends Component {
           <Grid.Row columns={7}>
             {this.props.roundTwoPlayerDeal.map(soldier =>(
               <Grid.Column key={`${soldier.points}-${soldier.id}`}>
-                <SoldierCard
-                  soldier={soldier}
-                  playerAddSoldier={this.props.playerAddSolderOrUpgrade}
-                  playerRemoveSoldier={this.props.playerRemoveSoldier}
-                   />
+                <div onClick={() => {
+                  this.props.playerAddSoldierOrUpgrade(soldier)
+                  this.props.playerRemoveSoldier(soldier)
+                  }}>
+                  <SoldierCard
+                  soldier={soldier} />
+                </div>
               </Grid.Column>
               ))}
           </Grid.Row>
         </Grid>
 
-        <h2>Click on 5 upgrade and/or soldier cards to add them to your hand.</h2>
         <h2>Your hand...</h2>
 
         <Grid>
@@ -59,7 +71,7 @@ class RoundTwo extends Component {
         </Grid>
 
         <Link to='/final_round'><Button size='large' color='olive' onClick={() =>{
-            this.props.computerSelectsUpgrades(this.props.computerDealRoundTwo, this.props.computersHand)
+          this.props.computerSelectsUpgrades(this.props.computerDealRoundTwo, this.props.computersHand)
           }}>Done!</Button></Link>
       </div>
     )
@@ -101,7 +113,7 @@ export default connect(mapStateToProps, {
   combineDecks: setCombinedDeck,
   secondComputerDeal: roundTwoComputerDeal,
   secondPlayerDeal: roundTwoPlayerDeal,
-  playerAddSolderOrUpgrade: addSoldierOrUpgradeToPlayersHand,
+  playerAddSoldierOrUpgrade: addSoldierOrUpgradeToPlayersHand,
   playerRemoveSoldier: removeSoldierFromPlayersSecondDeal,
   computerSelectsUpgrades: computerSelectsUpgrades
 })(RoundTwo)

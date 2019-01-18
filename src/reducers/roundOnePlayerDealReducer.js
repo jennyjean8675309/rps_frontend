@@ -12,8 +12,11 @@ export const roundOnePlayerDealReducer = (roundOnePlayerDeal = [], action) =>{
       return newDeal
     case 'REMOVE_SOLDIER_FROM_PLAYERS_FIRST_DEAL':
       let discard = [...roundOnePlayerDeal]
+      if (discard.length <= 2){
+        return discard
+      } else {
       let index = discard.indexOf(action.selectedSoldier)
-      return [...discard.slice(0, index), ...discard.slice(index + 1)]
+      return [...discard.slice(0, index), ...discard.slice(index + 1)]}
     default:
       return roundOnePlayerDeal
   }

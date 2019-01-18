@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Redirect } from 'react-router-dom';
 import { Button, Form } from 'semantic-ui-react';
 import { postingLogin } from '../actions/actions';
 
@@ -37,7 +36,7 @@ class LoginForm extends Component{
 
           <Form.Input icon='lock' iconPosition='left' placeholder='Password' type='password' name='password' onChange={(e) => this.handleOnChange(e)} />
 
-          <Button content='Login' color='olive' type='submit' value='Login' >{ this.props.currentUser ? <Redirect to='/home' /> : null }</Button>
+          <Button content='Login' color='olive' type='submit' value='Login' ></Button>
         </Form>
       </div>
     )

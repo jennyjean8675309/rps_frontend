@@ -13,7 +13,7 @@ export const roundTwoPlayerDealReducer = (roundTwoPlayerDeal = [], action) =>{
     case 'REMOVE_SOLDIER_FROM_PLAYERS_SECOND_DEAL':
       let discard = [...roundTwoPlayerDeal]
       let index = discard.indexOf(action.selectedCard)
-      console.log(index)
+      console.log(action.selectedCard, index)
       return [...discard.slice(0, index), ...discard.slice(index + 1)]
     default:
       return roundTwoPlayerDeal

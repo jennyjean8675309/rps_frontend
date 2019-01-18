@@ -1,52 +1,71 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { Button, Grid } from 'semantic-ui-react';
 import { roundOneComputerDeal, roundOnePlayerDeal, addSoldierToPlayersHand, removeSoldierFromPlayersFirstDeal, computerSelectsSoldiers } from '../actions/actions';
 import SoldierCard from './SoldierCard';
 
 class RoundOne extends Component {
+  constructor(){
+    super()
+    this.state = {
+      cardsDealt: false
+    }
+  }
   render(){
     return (
       <div>
         <h1>Enlistment Phase!</h1>
 
-        <Button size='large' color='olive' onClick={() =>{ this.shuffleSoldiers(this.props.soldiers)}}>
+        <Button size='large' color='olive' onClick={() =>{
+          if (this.state.cardsDealt === false) {
+          this.shuffleSoldiers(this.props.soldiers)
+          this.setState({
+            cardsDealt: true
+          })}}} >
         Deal Me Some Soldiers
         </Button>
+
+        <h2>Click on 5 soldiers to add them to your hand.</h2>
 
         <Grid>
           <Grid.Row columns={7}>
             {this.props.roundOnePlayerDeal.map(soldier =>(
-              <Grid.Column key={`${soldier.points}-${soldier.id}`}>
-                <SoldierCard
-                  soldier={soldier}
-                  playerAddSoldier={this.props.playerAddSoldier}
-                  playerRemoveSoldier={this.props.playerRemoveSoldier}
-                   />
+              <Grid.Column key={`${soldier.points}-${soldier.id}`} >
+                <div onClick={() =>{
+                this.props.playerAddSoldier(soldier)
+                this.props.playerRemoveSoldier(soldier)
+                }} >
+                  <SoldierCard
+                  soldier={soldier} />
+              </div>
               </Grid.Column>
               ))}
           </Grid.Row>
         </Grid>
 
-        <h2>Click on 5 soldiers to add them to your hand.</h2>
         <h2>Your hand...</h2>
           <Grid>
             <Grid.Row columns={5}>
               {this.props.playersHand.map(soldier =>(
                 <Grid.Column key={`${soldier.points}-${soldier.id}`}>
                   <SoldierCard
-                    soldier={soldier} />
+                  soldier={soldier} />
                 </Grid.Column>
                 ))}
             </Grid.Row>
           </Grid>
 
-          <Link to='/round_two'><Button size='large' color='olive' onClick={() =>{
+          <Link to={`${this.redirectUser()}`}><Button size='large' color='olive' onClick={() =>{
+            if (this.props.playersHand.length !== 5) {
+              alert('You must choose 5 cards before moving on to the next round.')
+            } else {
             this.props.computerSelection(this.props.roundOneComputerDeal)
+            this.redirectUser()
+            }
           }}>
           Done!
-          </Button></Link>
+        </Button></Link>
       </div>
     )
   }
@@ -64,6 +83,15 @@ class RoundOne extends Component {
     this.props.roundOneDealToPlayer(soldiers)
     this.props.roundOneDealToComputer(soldiers)
   }
+
+  redirectUser = () =>{
+    if (this.props.playersHand.length < 5) {
+      return '/round_one'
+    } else {
+      console.log('checking...')
+      return '/round_two'
+    }
+  }
 }
 
 const mapStateToProps = (state) =>{
@@ -75,6 +103,8 @@ const mapStateToProps = (state) =>{
 }
 
 export default connect(mapStateToProps, { roundOneDealToComputer: roundOneComputerDeal,
-roundOneDealToPlayer: roundOnePlayerDeal, playerAddSoldier: addSoldierToPlayersHand, playerRemoveSoldier: removeSoldierFromPlayersFirstDeal,
+roundOneDealToPlayer: roundOnePlayerDeal,
+playerAddSoldier: addSoldierToPlayersHand,
+playerRemoveSoldier: removeSoldierFromPlayersFirstDeal,
 computerSelection: computerSelectsSoldiers
 })(RoundOne);

@@ -1,10 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Menu } from 'semantic-ui-react'
+import { Menu, Modal } from 'semantic-ui-react'
 import { logoutUser } from '../actions/actions'
+import SignIn from './SignIn'
 
 class NavBar extends Component{
-  state = {}
+  state = { open: false }
+
+  show = dimmer => () => this.setState({ dimmer, open: true })
+  close = () => this.setState({ open : false })
 
   handleItemClick = (e, { name }) =>{
     this.setState({ activeItem: name})
@@ -23,17 +27,23 @@ class NavBar extends Component{
     const { activeItem } = this.state
 
     return (
-    <Menu>
-      <Menu.Item name='home' active={activeItem === 'home'} onClick={this.handleItemClick} href='/'>Home
-      </Menu.Item>
+      <div>
+        <Menu>
+          <Menu.Item name='home' active={activeItem === 'home'} onClick={this.handleItemClick} href='/'>Play</Menu.Item>
 
-      <Menu.Item name='how_to_play' active={activeItem === 'how_to_play'} onClick={this.handleItemClick} href='/how_to_play'>How To Play
-      </Menu.Item>
+          <Menu.Item name='how_to_play' active={activeItem === 'how_to_play'} onClick={this.handleItemClick} href='/how_to_play'>How To Play
+          </Menu.Item>
 
-      <Menu.Menu position='right'>
-        { this.props.currentUser ? <><Menu.Item>{this.props.currentUser.username}</Menu.Item><Menu.Item name='log_out' active={activeItem === 'log_out'} onClick={this.handleItemClick}>Log Out</Menu.Item></> : <Menu.Item name='sign_in' active={activeItem === 'sign_in'} onClick={this.handleItemClick} href='/sign_in'>Sign In</Menu.Item> }
-      </Menu.Menu>
-    </Menu>
+          <Menu.Menu position='right'>
+            { this.props.currentUser ? <><Menu.Item>{this.props.currentUser.username}</Menu.Item><Menu.Item name='log_out' active={activeItem === 'log_out'} onClick={this.handleItemClick}>Log Out</Menu.Item></> : <Menu.Item name='sign_in' active={activeItem === 'sign_in'} onClick={this.show('blurring')}>Sign In</Menu.Item> }
+          </Menu.Menu>
+        </Menu>
+
+        <Modal dimmer={this.state.dimmer} open={this.state.open} onClose={this.close}>
+          <SignIn />
+        </Modal>
+      </div>
+
   )}
 }
 
