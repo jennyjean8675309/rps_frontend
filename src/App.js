@@ -5,9 +5,9 @@ import NavBar from './Components/NavBar';
 import Home from './Components/Home';
 import HowToPlay from './Components/HowToPlay';
 import RoundOne from './Components/RoundOne';
-import RoundTwo from './Components/RoundTwo'
-import FinalRound from './Components/FinalRound'
-import Fight from './Components/Fight'
+import RoundTwo from './Components/RoundTwo';
+import FinalRound from './Components/FinalRound';
+import Fight from './Components/Fight';
 import { connect } from 'react-redux';
 import { fetchingToken, fetchingSoldiers, fetchingSoldierUpgrades, fetchingUsers } from './actions/actions';
 

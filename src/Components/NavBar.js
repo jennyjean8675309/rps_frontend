@@ -17,6 +17,15 @@ class NavBar extends Component{
     }
   }
 
+  changeModalState = () =>{
+    if (this.props.currentUser !== null) {
+      console.log('closing modal...')
+      this.close()
+    }
+  }
+
+  //This function is being called but doesn't recognize currentUser update
+
   logOut = (user) =>{
     console.log('logging out...', user)
     this.props.logout()
@@ -40,7 +49,9 @@ class NavBar extends Component{
         </Menu>
 
         <Modal dimmer={this.state.dimmer} open={this.state.open} onClose={this.close}>
-          <SignIn />
+          <SignIn
+            modalState={this.changeModalState}
+          />
         </Modal>
       </div>
 

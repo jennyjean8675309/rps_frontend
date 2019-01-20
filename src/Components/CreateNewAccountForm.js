@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import { Button, Form } from 'semantic-ui-react';
+import { Button, Form, Modal } from 'semantic-ui-react';
 import { postingNewUser } from '../actions/actions';
 
 class CreateNewAccountForm extends Component{
@@ -38,7 +38,9 @@ class CreateNewAccountForm extends Component{
 
           <Form.Input icon='lock' iconPosition='left' placeholder='Password' type='password' name='password' onChange={(e) => this.handleOnChange(e)} />
 
-          <Button content='Create' color='olive' type='submit' value='Create'/>
+          <Modal.Actions>
+            <Button content='Create' color='olive' type='submit' value='Create'onClick={this.props.modalState}/>
+          </Modal.Actions>
         </Form>
       </div>
     )

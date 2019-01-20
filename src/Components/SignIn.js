@@ -9,11 +9,12 @@ class SignIn extends Component{
       <Segment placeholder>
         <Grid columns={2} relaxed='very' stackable>
           <Grid.Column>
-            <LoginForm />
+            <LoginForm modalState={this.props.modalState}/>
           </Grid.Column>
 
           <Grid.Column verticalAlign='middle'>
-            <CreateNewAccountForm />
+            <CreateNewAccountForm
+            modalState={this.props.modalState}/>
           </Grid.Column>
         </Grid>
 

@@ -1,3 +1,25 @@
 .App {
   text-align: center;
 }
+
+.instructions {
+  margin-left: 75px;
+  margin-right: 75px;
+  text-align: left;
+}
+
+.home-header {
+  padding-top: 50px;
+  font-family: 'Permanent Marker', cursive;
+  font-size: 55px;
+  color: rgb(46, 46, 46);
+}
+
+.image-card {
+  box-shadow: 10px 10px 5px grey;
+}
+
+.home-button {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}

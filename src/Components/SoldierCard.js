@@ -4,59 +4,44 @@ import { Card, Image } from 'semantic-ui-react';
 class SoldierCard extends Component {
   render(){
     return (
-      <Card >
-        <Image src='/images/avatar/large/daniel.jpg' />
+      <Card>
+        <Image src={require(`../images/soldier-${this.props.soldier.points}-${this.props.soldier.soldier_type_id}.jpg`)} />
           <Card.Content>
-            <Card.Header>{this.whichSoldier(this.props.soldier)}</Card.Header>
-            <Card.Meta>Soldier Type: {this.whichType(this.props.soldier)}</Card.Meta>
-            <Card.Description>{this.howManyPoints(this.props.soldier)}</Card.Description>
+            <Card.Header>{this.whichSoldier(this.props.soldier)[0]}</Card.Header>
+            <Card.Meta>{this.whichSoldier(this.props.soldier)[1]}</Card.Meta>
+            <Card.Meta>{`${this.props.soldier.points} points`}</Card.Meta>
+            <Card.Description>{this.whichSoldier(this.props.soldier)[2]}</Card.Description>
+         </Card.Content>
+
+         <Card.Content extra className='army-type'>
+           {`Army: ${this.whichType(this.props.soldier)}`}
          </Card.Content>
       </Card>
     )
   }
 
-  howManyPoints = (soldier) =>{
-    let id = soldier.soldier_type_id
-    if (id === 1){
-      if (soldier.points === 2){
-        return 'Enlist this soldier for 2 points'
-      } else {
-        return 'Upgrade any Pebble for an additional 3 points'
-      }
-    } else if (id === 2){
-      if (soldier.points === 2){
-        return 'Enlist this soldier for 2 points'
-      } else {
-        return 'Upgrade any Looseleaf for an additional 3 points'
-      }
-    } else {
-      if (soldier.points === 2){
-        return 'Enlist this soldier for 2 points'
-      } else {
-        return 'Upgrade any Kid Scissors for an additional 3 points'
-      }
-    }
-  }
+  // <Card.Extra>{`Army: ${this.whichType(this.props.soldier)}`}</Card.Extra>
+  // <Card.Meta>Soldier Type: {this.whichType(this.props.soldier)}</Card.Meta>
 
   whichSoldier = (soldier) =>{
     let id = soldier.soldier_type_id
     if (id === 1){
       if (soldier.points === 2){
-        return 'Pebble'
+        return ['Pebble', 'Foot Soldier', "Pebble may annoy you if he sits in your shoe, but even a lowly ticket stub could cover him up."]
       } else {
-        return 'Stone'
+        return ['Stone', 'Special Ops', "This soldier's been around the block a few times - and he will give you a concussion if you give him reason to."]
       }
     } else if (id === 2){
       if (soldier.points === 2){
-        return 'Looseleaf'
+        return ['Looseleaf', 'Foot Soldier', "A non-fatal paper cut is about all the harm Looseleaf could do you."]
       } else {
-        return 'Laminated'
+        return ['Laminated', 'Special Ops', "Try putting this guy in your paper shredder and you'll rue the day you were born."]
       }
     } else {
       if (soldier.points === 2){
-        return 'Kid Scissors'
+        return ['Safety Scissors', 'Foot Soldier', "Safety Scissors won't cut your fingers, and he can barely handle construction paper."]
       } else {
-        return 'Pointy Scissors'
+        return ['Pointy Scissors', 'Special Ops', "This guy's sharp - both figuratively and literally. You don't want to meet him on the battlefield."]
       }
     }
   }
