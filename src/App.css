@@ -1,3 +1,8 @@
+body {
+  background-image: url('./images/brickwall_@2X.png');
+  background-repeat: repeat;
+}
+
 .App {
   text-align: center;
 }

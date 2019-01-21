@@ -38,7 +38,7 @@ class Home extends Component {
         <br></br>
         <br></br>
 
-        <Link to='/round_one'><Button size='massive' color='olive' className='home-button'>Play the Game!</Button></Link>
+        <Link to='/round_one'><Button size='massive' color='violet' className='home-button'>Play the Game!</Button></Link>
       </div>
     )
   }

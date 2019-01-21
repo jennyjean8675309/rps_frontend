@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Grid } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
+import { Grid, Modal, Header, Button } from 'semantic-ui-react';
 import SoldierCard from './SoldierCard';
 import { setPlayersFinalScore, setComputersFinalScore } from '../actions/actions'
 
@@ -10,9 +11,12 @@ class Fight extends Component {
     this.state = {
       computersArmy: null,
       bonusWinner: null,
-      winner: null
+      winner: null,
+      modalOpen: true
     }
   }
+
+  handleClose = () => this.setState({ modalOpen: false })
 
   componentDidMount(){
     let compArmy = this.whichArmy(this.props.computersArmy)
@@ -34,11 +38,34 @@ class Fight extends Component {
   render(){
     return (
       <div>
-        <h2>{`The Enemy chose to deploy ${this.state.computersArmy}!`}</h2>
+        <Modal
+        open={this.state.modalOpen}
+        onClose={this.handleClose}
+        basic
+        size='small'
+        >
+        <Header>
+          <h1>{this.whoWins()}</h1>
+        </Header>
+        <Modal.Content>
+          <h2>{`The Enemy chose to deploy ${this.state.computersArmy}!`}</h2>
+        </Modal.Content>
+        <Modal.Content>
+          <h2>{`${this.state.bonusWinner}`}</h2>
+        </Modal.Content>
+        <Modal.Content>
+          <h2>Final Scores...</h2>
+          <h3>{`You: ${this.props.playersScore}`}</h3>
+          <h3>{`The Enemy: ${this.props.computersScore}`}</h3>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button color='olive' onClick={this.handleClose} inverted>
+            See the Carnage
+          </Button>
+        </Modal.Actions>
+      </Modal>
 
-        <h2>{`${this.state.bonusWinner}`}</h2>
-
-        <h2>Your hand...</h2>
+        <h2>Your army...</h2>
         <Grid>
           <Grid.Row columns={10}>
             {this.props.playersHand.map(soldier =>(
@@ -53,7 +80,7 @@ class Fight extends Component {
           </Grid.Row>
         </Grid>
 
-        <h2>Computer's hand...</h2>
+        <h2>The Enemy's army...</h2>
         <Grid>
           <Grid.Row columns={10}>
             {this.props.computersHand.map(soldier =>(
@@ -68,9 +95,7 @@ class Fight extends Component {
           </Grid.Row>
         </Grid>
 
-        <h2>Final Scores...</h2>
-        <h2>{`You: ${this.props.playersScore}`}</h2>
-        <h2>{`Computer: ${this.props.computersScore}`}</h2>
+        <Link to='/round_one' ><Button size='large' color='olive' >Play Again</Button></Link>
       </div>
     )
   }
