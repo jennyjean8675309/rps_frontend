@@ -3,7 +3,7 @@ export const roundTwoPlayerDealReducer = (roundTwoPlayerDeal = [], action) =>{
     case 'ROUND_TWO_PLAYER_DEAL':
       let upgrades = action.combinedDeck
       let i = 0
-      let newDeal = [...roundTwoPlayerDeal]
+      let newDeal = []
       while (newDeal.length < 7){
         if (i % 2 === 0){
           newDeal.push(upgrades[i])
@@ -12,9 +12,11 @@ export const roundTwoPlayerDealReducer = (roundTwoPlayerDeal = [], action) =>{
       return newDeal
     case 'REMOVE_SOLDIER_FROM_PLAYERS_SECOND_DEAL':
       let discard = [...roundTwoPlayerDeal]
+      if (discard.length <= 2){
+        return discard
+      } else {
       let index = discard.indexOf(action.selectedCard)
-      console.log(action.selectedCard, index)
-      return [...discard.slice(0, index), ...discard.slice(index + 1)]
+      return [...discard.slice(0, index), ...discard.slice(index + 1)]}
     default:
       return roundTwoPlayerDeal
   }

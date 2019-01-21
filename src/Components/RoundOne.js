@@ -12,6 +12,7 @@ class RoundOne extends Component {
       cardsDealt: false
     }
   }
+
   render(){
     return (
       <div>
@@ -26,46 +27,60 @@ class RoundOne extends Component {
         Deal Me Some Soldiers
         </Button>
 
-        <h2>Click on 5 soldiers to add them to your hand.</h2>
+        <br></br>
+        <br></br>
 
-        <Grid>
-          <Grid.Row columns={7}>
-            {this.props.roundOnePlayerDeal.map(soldier =>(
-              <Grid.Column key={`${soldier.points}-${soldier.id}`} >
-                <div onClick={() =>{
-                this.props.playerAddSoldier(soldier)
-                this.props.playerRemoveSoldier(soldier)
-                }} >
-                  <SoldierCard
-                  soldier={soldier} />
-              </div>
-              </Grid.Column>
-              ))}
-          </Grid.Row>
-        </Grid>
+        { this.state.cardsDealt === true ?
+          <div>
+            <Grid>
+              <Grid.Row columns={7}>
+                {this.props.roundOnePlayerDeal.map(soldier =>(
+                  <Grid.Column key={`${soldier.points}-${soldier.id}`} >
+                    <div onClick={() =>{
+                    this.props.playerAddSoldier(soldier)
+                    this.props.playerRemoveSoldier(soldier)
+                    }} >
+                      <SoldierCard
+                      soldier={soldier} />
+                  </div>
+                  </Grid.Column>
+                  ))}
+              </Grid.Row>
+            </Grid>
 
-        <h2>Your hand...</h2>
-          <Grid>
-            <Grid.Row columns={5}>
-              {this.props.playersHand.map(soldier =>(
-                <Grid.Column key={`${soldier.points}-${soldier.id}`}>
-                  <SoldierCard
-                  soldier={soldier} />
-                </Grid.Column>
-                ))}
-            </Grid.Row>
-          </Grid>
+            <h2>Click on 5 soldiers to add them to an army.</h2>
+          </div> : null }
 
-          <Link to={`${this.redirectUser()}`}><Button size='large' color='olive' onClick={() =>{
-            if (this.props.playersHand.length !== 5) {
-              alert('You must choose 5 cards before moving on to the next round.')
-            } else {
-            this.props.computerSelection(this.props.roundOneComputerDeal)
-            this.redirectUser()
-            }
-          }}>
-          Done!
-        </Button></Link>
+          { this.props.playersHand.length > 0 ?
+            <div>
+              <br></br>
+              <br></br>
+              
+              <h2>Your armies...</h2>
+                <Grid>
+                  <Grid.Row columns={5}>
+                    {this.props.playersHand.map(soldier =>(
+                      <Grid.Column key={`${soldier.points}-${soldier.id}`}>
+                        <SoldierCard
+                        soldier={soldier} />
+                      </Grid.Column>
+                      ))}
+                  </Grid.Row>
+                </Grid>
+
+                <Link to={`${this.redirectUser()}`}><Button size='large' color='olive' onClick={() =>{
+                  if (this.props.playersHand.length !== 5) {
+                    alert('You must choose 5 cards before moving on to the next round.')
+                  } else {
+                  this.props.computerSelection(this.props.roundOneComputerDeal)
+                  this.redirectUser()
+                  }
+                }}>
+                Done!
+              </Button></Link>
+            </div>
+            : null }
+
       </div>
     )
   }
@@ -88,7 +103,6 @@ class RoundOne extends Component {
     if (this.props.playersHand.length < 5) {
       return '/round_one'
     } else {
-      console.log('checking...')
       return '/round_two'
     }
   }
@@ -102,9 +116,10 @@ const mapStateToProps = (state) =>{
   computersHand: state.computersHand }
 }
 
-export default connect(mapStateToProps, { roundOneDealToComputer: roundOneComputerDeal,
-roundOneDealToPlayer: roundOnePlayerDeal,
-playerAddSoldier: addSoldierToPlayersHand,
-playerRemoveSoldier: removeSoldierFromPlayersFirstDeal,
-computerSelection: computerSelectsSoldiers
+export default connect(mapStateToProps, {
+  roundOneDealToComputer: roundOneComputerDeal,
+  roundOneDealToPlayer: roundOnePlayerDeal,
+  playerAddSoldier: addSoldierToPlayersHand,
+  playerRemoveSoldier: removeSoldierFromPlayersFirstDeal,
+  computerSelection: computerSelectsSoldiers
 })(RoundOne);

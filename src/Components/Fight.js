@@ -9,9 +9,11 @@ class Fight extends Component {
     super()
     this.state = {
       computersArmy: null,
-      bonusWinner: null
+      bonusWinner: null,
+      winner: null
     }
   }
+
   componentDidMount(){
     let compArmy = this.whichArmy(this.props.computersArmy)
     this.setState({
@@ -32,9 +34,7 @@ class Fight extends Component {
   render(){
     return (
       <div>
-        <h1>Fight!</h1>
-
-        <h2>{`Oh snap! Computer chose to deploy ${this.state.computersArmy}!`}</h2>
+        <h2>{`The Enemy chose to deploy ${this.state.computersArmy}!`}</h2>
 
         <h2>{`${this.state.bonusWinner}`}</h2>
 
@@ -87,19 +87,29 @@ class Fight extends Component {
 
   whoGetsBonus = (computersArmy, playersArmy) =>{
     if (computersArmy === playersArmy){
-      return ["No bonus points awarded.", 0]
+      return ["No bonus points awarded this time.", 0]
     } else if (computersArmy === 1 && playersArmy === 2){
-      return ["Paper covers rock - you get 5 bonus points!", 2]
+      return ["Good decision, General! Paper covers rock - you get 5 bonus points!", 2]
     } else if (computersArmy === 1 && playersArmy === 3){
-      return ["Rock crushes scissors - computer gets 5 bonus points!", 1]
+      return ["Sorry, General! Rock crushes scissors - The Enemy gets 5 bonus points!", 1]
     } else if (computersArmy === 2 && playersArmy === 1){
-      return ["Paper covers rock - computer gets 5 bonus points!", 1]
+      return ["Sorry, General! Paper covers rock - The Enemy gets 5 bonus points!", 1]
     } else if (computersArmy === 2 && playersArmy === 3){
-      return ["Scissors cut paper - you get 5 bonus points!", 2]
+      return ["Good decision, General! Scissors cut paper - you get 5 bonus points!", 2]
     } else if (computersArmy === 3 && playersArmy === 1){
-      return ["Rock crushes scissors - you get 5 bonus points!", 2]
+      return ["Good decision, General! Rock crushes scissors - you get 5 bonus points!", 2]
     } else if (computersArmy === 3 && playersArmy === 2){
-      return ["Scissors cut paper - computer gets 5 bonus points!", 1]
+      return ["Sorry, General! Scissors cut paper - The Enemy gets 5 bonus points!", 1]
+    }
+  }
+
+  whoWins = (playersScore, computersScore) =>{
+    if (this.props.playersScore === this.props.computersScore) {
+      return "It's a tie!"
+    } else if (this.props.playersScore > this.props.computersScore) {
+      return "You win General!"
+    } else {
+      return "The Enemy has won this battle."
     }
   }
 }

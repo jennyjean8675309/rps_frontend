@@ -3,7 +3,7 @@ export const roundOnePlayerDealReducer = (roundOnePlayerDeal = [], action) =>{
     case 'ROUND_ONE_PLAYER_DEAL':
       let soldiers = action.shuffledSoldiers
       let i = 0
-      let newDeal = [...roundOnePlayerDeal]
+      let newDeal = []
       while (newDeal.length < 7){
         if (i % 2 === 0){
           newDeal.push(soldiers[i])

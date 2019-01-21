@@ -39,7 +39,7 @@ class CreateNewAccountForm extends Component{
           <Form.Input icon='lock' iconPosition='left' placeholder='Password' type='password' name='password' onChange={(e) => this.handleOnChange(e)} />
 
           <Modal.Actions>
-            <Button content='Create' color='olive' type='submit' value='Create'onClick={this.props.modalState}/>
+            <Button content='Create' color='olive' type='submit' value='Create' onClick={this.props.modalState}/>
           </Modal.Actions>
         </Form>
       </div>

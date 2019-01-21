@@ -6,9 +6,9 @@ class Home extends Component {
   state = { rockVisible: false, paperVisible: false, scissorsVisible: false }
 
   componentDidMount(){
-    this.setState({ rockVisible: true })
-    setTimeout(() => {this.setState({ paperVisible: true })}, 500)
-    setTimeout(() => {this.setState({ scissorsVisible: true })}, 1000)
+    setTimeout(() => {this.setState({ rockVisible: true })}, 500 )
+    setTimeout(() => {this.setState({ paperVisible: true })}, 1000)
+    setTimeout(() => {this.setState({ scissorsVisible: true })}, 1500)
   }
 
   render(){
@@ -21,7 +21,7 @@ class Home extends Component {
 
         <Grid>
           <Grid.Row columns={3}>
-            <Transition.Group animation='fly left' duration={1000}>
+            <Transition.Group animation='drop' duration={1000}>
               <Grid.Column>
                 {this.state.rockVisible && <Image size='large' src={require('../images/soldier-3-1.jpg')} className="image-card" />}
               </Grid.Column>

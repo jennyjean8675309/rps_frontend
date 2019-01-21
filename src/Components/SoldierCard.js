@@ -5,7 +5,7 @@ class SoldierCard extends Component {
   render(){
     return (
       <Card>
-        <Image src={require(`../images/soldier-${this.props.soldier.points}-${this.props.soldier.soldier_type_id}.jpg`)} />
+        <Image src={require(`../images/soldier-${this.props.soldier.points}-${this.props.soldier.soldier_type_id}.jpg`)} size='medium' />
           <Card.Content>
             <Card.Header>{this.whichSoldier(this.props.soldier)[0]}</Card.Header>
             <Card.Meta>{this.whichSoldier(this.props.soldier)[1]}</Card.Meta>
@@ -19,9 +19,6 @@ class SoldierCard extends Component {
       </Card>
     )
   }
-
-  // <Card.Extra>{`Army: ${this.whichType(this.props.soldier)}`}</Card.Extra>
-  // <Card.Meta>Soldier Type: {this.whichType(this.props.soldier)}</Card.Meta>
 
   whichSoldier = (soldier) =>{
     let id = soldier.soldier_type_id

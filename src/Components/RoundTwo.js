@@ -22,34 +22,43 @@ class RoundTwo extends Component {
       <div>
         <h1>Training Phase!</h1>
 
-        <h2>Click on 5 upgrade and/or soldier cards to add them to your hand.</h2>
-
         <Button size='large' color='olive' onClick={() =>{
             if (this.state.cardsDealt === false) {
             this.props.secondPlayerDeal(this.props.soldierAndUpgradeDeck)
             this.setState({ cardsDealt: true })
             this.props.secondComputerDeal(this.props.soldierAndUpgradeDeck)}
         }}>
-        Deal Me Some Soldier Upgrades
+        Deal Me Some More Soldiers
         </Button>
 
-        <Grid>
-          <Grid.Row columns={7}>
-            {this.props.roundTwoPlayerDeal.map(soldier =>(
-              <Grid.Column key={`${soldier.points}-${soldier.id}`}>
-                <div onClick={() => {
-                  this.props.playerAddSoldierOrUpgrade(soldier)
-                  this.props.playerRemoveSoldier(soldier)
-                  }}>
-                  <SoldierCard
-                  soldier={soldier} />
-                </div>
-              </Grid.Column>
-              ))}
-          </Grid.Row>
-        </Grid>
+        { this.props.roundTwoPlayerDeal.length > 0 ?
+          <div>
+            <h2>Click on 5 foot soldier or special ops cards to add them to your army.</h2>
 
-        <h2>Your hand...</h2>
+            <Grid>
+              <Grid.Row columns={7}>
+                {this.props.roundTwoPlayerDeal.map(soldier =>(
+                  <Grid.Column key={`${soldier.points}-${soldier.id}`}>
+                    <div onClick={() => {
+                      this.props.playerAddSoldierOrUpgrade(soldier)
+                      this.props.playerRemoveSoldier(soldier)
+                      }}>
+                      <SoldierCard
+                      soldier={soldier} />
+                    </div>
+                  </Grid.Column>
+                  ))}
+              </Grid.Row>
+            </Grid>
+          </div>
+        : <div>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
+          </div> }
+        <h2>Your armies...</h2>
 
         <Grid>
           <Grid.Row columns={5}>
@@ -70,19 +79,21 @@ class RoundTwo extends Component {
           </Grid.Row>
         </Grid>
 
-        <Link to='/final_round'><Button size='large' color='olive' onClick={() =>{
+        <Link to={this.redirectUser()}><Button size='large' color='olive' onClick={() =>{
+          if (this.props.playersHand.length < 6) {
+            alert('You must choose at least 1 special ops card or foot soldier before moving onto the next round.')
+          } else {
           this.props.computerSelectsUpgrades(this.props.computerDealRoundTwo, this.props.computersHand)
-          }}>Done!</Button></Link>
+          alert('URGENT MESSAGE FROM THE FRONT LINES: General, the Reconnaissance Team is reporting that The Enemy is ready for attack. You must choose an army to deploy now!')
+          }
+        }}>Done!</Button></Link>
       </div>
     )
   }
 
   combineDecksAndShuffle = (soldiers, upgrades) =>{
-    console.log("taking players' cards out of soldier deck...")
     let playersCards = [...this.props.playersHand, ...this.props.computersHand]
-    console.log(playersCards)
     let reducedSoldiers = soldiers.filter(soldier => playersCards.includes(soldier) === false )
-    console.log('combining soldiers with upgrades...')
     let combinedDeck = [...reducedSoldiers, ...upgrades]
     let count = combinedDeck.length;
     let t;
@@ -94,6 +105,14 @@ class RoundTwo extends Component {
       combinedDeck[i] = t;
     }
     this.props.combineDecks(combinedDeck)
+  }
+
+  redirectUser = () =>{
+    if (this.props.playersHand.length < 6) {
+      return 'round_two'
+    } else {
+      return '/final_round'
+    }
   }
 }
 

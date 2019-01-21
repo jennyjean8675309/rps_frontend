@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Menu, Modal } from 'semantic-ui-react'
+import { Divider, Grid, Segment, Menu, Modal } from 'semantic-ui-react'
 import { logoutUser } from '../actions/actions'
-import SignIn from './SignIn'
+import LoginForm from './LoginForm'
+import CreateNewAccountForm from './CreateNewAccountForm'
 
 class NavBar extends Component{
   state = { open: false }
@@ -18,8 +19,8 @@ class NavBar extends Component{
   }
 
   changeModalState = () =>{
-    if (this.props.currentUser !== null) {
-      console.log('closing modal...')
+    console.log('closing modal...')
+    if (this.props.currentUser) {
       this.close()
     }
   }
@@ -27,7 +28,6 @@ class NavBar extends Component{
   //This function is being called but doesn't recognize currentUser update
 
   logOut = (user) =>{
-    console.log('logging out...', user)
     this.props.logout()
     localStorage.clear()
   }
@@ -49,13 +49,24 @@ class NavBar extends Component{
         </Menu>
 
         <Modal dimmer={this.state.dimmer} open={this.state.open} onClose={this.close}>
-          <SignIn
-            modalState={this.changeModalState}
-          />
+          <Segment placeholder>
+            <Grid columns={2} relaxed='very' stackable>
+              <Grid.Column>
+                <LoginForm modalState={this.changeModalState}/>
+              </Grid.Column>
+
+              <Grid.Column verticalAlign='middle'>
+                <CreateNewAccountForm
+                modalState={this.changeModalState}/>
+              </Grid.Column>
+            </Grid>
+
+            <Divider vertical>Or</Divider>
+          </Segment>
         </Modal>
       </div>
-
-  )}
+    )
+  }
 }
 
 const mapStateToProps = (state) =>{

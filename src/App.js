@@ -14,7 +14,6 @@ import { fetchingToken, fetchingSoldiers, fetchingSoldierUpgrades, fetchingUsers
 class App extends Component {
 
   componentDidMount(){
-    //need to make fetch calls to grab soldier cards, soldier upgrade cards, users, and current token (if one exists)
     this.props.fetchToken()
     this.props.fetchSoldiers()
     this.props.fetchSoldierUpgrades()

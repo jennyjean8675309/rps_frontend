@@ -6,16 +6,19 @@ import SoldierCard from './SoldierCard';
 import { playerDeployArmy, computerDeployArmy, setPlayersScore, setPlayersArmy, setComputersScore, setComputersArmy } from '../actions/actions'
 
 class FinalRound extends Component {
-  state = {}
+  state = {
+    filteredArmy: [],
+    armyId: null
+  }
 
   handleChange = (e, { value }) =>{
     this.setState({ value })
-    this.props.playerSelectArmy(e.currentTarget.firstElementChild.value)
-    this.props.playerSetArmy(Number(e.currentTarget.firstElementChild.id))
-    this.tallyPlayersScore(this.props.playersHand)
+    this.setState({
+      armyId: Number(e.currentTarget.firstElementChild.id)
+    })
+    this.filterArmy(e.currentTarget.firstElementChild.id)
     let computersArmy = this.tallyComputersScores(this.props.computersHand)[0]
     let computersScore = this.tallyComputersScores(this.props.computersHand)[1]
-    console.log(e.currentTarget.firstElementChild.id)
     this.props.computerSelectArmy(computersArmy)
     this.props.computerSetScore(computersScore)
     this.props.computerSetArmy(computersArmy)
@@ -24,32 +27,10 @@ class FinalRound extends Component {
   render(){
     return (
       <div>
-        <h1>Preparing for the final showdown...</h1>
-
-        <h2>Your hand...</h2>
-
-        <Grid>
-          <Grid.Row columns={5}>
-            {this.props.playersHand.slice (0, 5).map(soldier =>(
-              <Grid.Column key={`${soldier.points}-${soldier.id}`}>
-                <SoldierCard
-                  soldier={soldier} />
-                </Grid.Column>
-                ))}
-          </Grid.Row>
-          <Grid.Row columns={5}>
-            {this.props.playersHand.slice(5).map(soldier =>(
-              <Grid.Column key={`${soldier.points}-${soldier.id}`}>
-                <SoldierCard
-                  soldier={soldier} />
-              </Grid.Column>
-              ))}
-          </Grid.Row>
-        </Grid>
-
         <Form>
           <Form.Field>
-            Which army would you like to deploy? <b>{this.state.value}</b>
+            <h1>Which army would you like to deploy, General? </h1>
+            <b>{this.state.value}</b>
           </Form.Field>
           <Form.Field>
             <Radio
@@ -83,18 +64,41 @@ class FinalRound extends Component {
           </Form.Field>
         </Form>
 
-        <h2>Computer is deciding which army to deploy...</h2>
+        <h2>Your army...</h2>
 
-        <Link to='/fight'><Button size='large' color='olive' onClick={() => {
-          this.props.playerSetScore(this.tallyPlayersScore(this.props.playersHand))
-        }}>Fight!</Button></Link>
+        <Grid>
+          <Grid.Row columns={5}>
+            {this.state.filteredArmy.slice (0, 5).map(soldier =>(
+              <Grid.Column key={`${soldier.points}-${soldier.id}`}>
+                <SoldierCard
+                  soldier={soldier} />
+                </Grid.Column>
+                ))}
+          </Grid.Row>
+          <Grid.Row columns={5}>
+            {this.state.filteredArmy.slice(5).map(soldier =>(
+              <Grid.Column key={`${soldier.points}-${soldier.id}`}>
+                <SoldierCard
+                  soldier={soldier} />
+              </Grid.Column>
+              ))}
+          </Grid.Row>
+        </Grid>
+
+        <Link to='/fight'><Button size='large' color='olive' onClick={() =>{
+          let playersScore = this.tallyScore(this.state.filteredArmy)
+          console.log(playersScore)
+          this.props.playerSetArmy(this.state.armyId)
+          this.props.playerSelectArmy(this.state.filteredArmy)
+          this.props.playerSetScore(playersScore)
+        }}>FIGHT!</Button></Link>
       </div>
     )
   }
 
-  tallyPlayersScore = (playersHand) =>{
-    let soldiers = playersHand.filter(card => card.points === 2)
-    let upgrades = playersHand.filter(card => card.points === 3)
+  tallyScore = (playersArmy) =>{
+    let soldiers = playersArmy.filter(card => card.points === 2)
+    let upgrades = playersArmy.filter(card => card.points === 3)
     let soldiersCount = soldiers.length
     let upgradesCount;
     let score = soldiersCount * 2
@@ -108,44 +112,14 @@ class FinalRound extends Component {
   }
 
   tallyComputersScores = (computersHand) =>{
-    let rockSoldiers = computersHand.filter(card => card.points === 2 && card.soldier_type_id === 1)
-    let rockUpgrades = computersHand.filter(card => card.points === 3 && card.soldier_type_id === 1)
-    let paperSoldiers = computersHand.filter(card => card.points === 2 && card.soldier_type_id === 2)
-    let paperUpgrades = computersHand.filter(card => card.points === 3 && card.soldier_type_id === 2)
-    let scissorsSoldiers = computersHand.filter(card => card.points === 2 && card.soldier_type_id === 3)
-    let scissorsUpgrades = computersHand.filter(card => card.points === 3 && card.soldier_type_id === 3)
-    //Rock Army Score
-    let rockSoldiersCount = rockSoldiers.length
-    let rockUpgradesCount;
-    let rockScore = rockSoldiersCount * 2
-    if (rockUpgrades.length > rockSoldiersCount) {
-      rockUpgradesCount = rockSoldiersCount
-    } else {
-      rockUpgradesCount = rockUpgrades.length
-    }
-    rockScore = rockScore + (rockUpgradesCount * 3)
+    let rocks = computersHand.filter(card => card.soldier_type_id === 1)
+    let rockScore = this.tallyScore(rocks)
+    let papers = computersHand.filter(card => card.soldier_type_id === 2)
+    let paperScore = this.tallyScore(papers)
+    let scissors = computersHand.filter(card => card.soldier_type_id === 3)
+    let scissorsScore = this.tallyScore(scissors)
     console.log('rock', rockScore)
-    //Paper Army Score
-    let paperSoldiersCount = paperSoldiers.length
-    let paperUpgradesCount;
-    let paperScore = paperSoldiersCount * 2
-    if (paperUpgrades.length > paperSoldiersCount) {
-      paperUpgradesCount = paperSoldiersCount
-    } else {
-      paperUpgradesCount = paperUpgrades.length
-    }
-    paperScore = paperScore + (paperUpgradesCount * 3)
     console.log('paper', paperScore)
-    //Scissors Army Score
-    let scissorsSoldiersCount = scissorsSoldiers.length
-    let scissorsUpgradesCount;
-    let scissorsScore = scissorsSoldiersCount * 2
-    if (scissorsUpgrades.length > scissorsSoldiersCount) {
-      scissorsUpgradesCount = scissorsSoldiersCount
-    } else {
-      scissorsUpgradesCount = scissorsUpgrades.length
-    }
-    scissorsScore = scissorsScore + (scissorsUpgradesCount * 3)
     console.log('scissors', scissorsScore)
     if (rockScore >= paperScore && rockScore >= scissorsScore){
       return [1, rockScore]
@@ -153,6 +127,24 @@ class FinalRound extends Component {
       return [2, paperScore]
     } else {
       return [3, scissorsScore]
+    }
+  }
+
+  filterArmy = (selectedArmy) =>{
+    console.log('selected army...', selectedArmy)
+    let currentArmy = this.props.playersHand
+    if (selectedArmy === '1'){
+      this.setState({
+        filteredArmy: currentArmy.filter(card => card.soldier_type_id === 1)
+      })
+    } else if (selectedArmy === '2'){
+      this.setState({
+        filteredArmy: currentArmy.filter(card => card.soldier_type_id === 2)
+      })
+    } else if (selectedArmy === '3'){
+      this.setState({
+        filteredArmy: currentArmy.filter(card => card.soldier_type_id === 3)
+      })
     }
   }
 }

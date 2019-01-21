@@ -20,17 +20,7 @@ export const playersHandReducer = (playersHand = [], action) =>{
       }
       return updatedHand
     case 'PLAYER_DEPLOY_ARMY':
-      let selection = action.selectedArmy
-      let choice = [...playersHand]
-      console.log('deploying army...', choice, selection)
-      if (selection === 'Rock'){
-        return choice.filter(card => card.soldier_type_id === 1)
-      } else if (selection === 'Paper'){
-        return choice.filter(card => card.soldier_type_id === 2)
-      } else if (selection === 'Scissors'){
-        return choice.filter(card => card.soldier_type_id === 3)
-      }
-      break
+      return action.selectedArmy
     default:
       return playersHand
   }
