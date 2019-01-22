@@ -85,7 +85,7 @@ class FinalRound extends Component {
           </Grid.Row>
         </Grid>
 
-        <Link to='/fight'><Button size='large' color='olive' onClick={() =>{
+        <Link to='/fight'><Button size='large' color='purple' onClick={() =>{
           let playersScore = this.tallyScore(this.state.filteredArmy)
           console.log(playersScore)
           this.props.playerSetArmy(this.state.armyId)

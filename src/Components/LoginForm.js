@@ -37,7 +37,7 @@ class LoginForm extends Component{
           <Form.Input icon='lock' iconPosition='left' placeholder='Password' type='password' name='password' onChange={(e) => this.handleOnChange(e)} />
 
           <Modal.Actions>
-            <Button content='Login' color='olive' type='submit' value='Login' onClick={this.props.modalState}></Button>
+            <Button content='Login' color='purple' type='submit' value='Login' onClick={this.props.modalState}></Button>
           </Modal.Actions>
         </Form>
       </div>

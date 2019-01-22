@@ -18,7 +18,7 @@ class RoundOne extends Component {
       <div>
         <h1>Enlistment Phase!</h1>
 
-        <Button size='large' color='olive' onClick={() =>{
+        <Button size='large' color='purple' onClick={() =>{
           if (this.state.cardsDealt === false) {
           this.shuffleSoldiers(this.props.soldiers)
           this.setState({
@@ -55,7 +55,7 @@ class RoundOne extends Component {
             <div>
               <br></br>
               <br></br>
-              
+
               <h2>Your armies...</h2>
                 <Grid>
                   <Grid.Row columns={5}>
@@ -68,7 +68,10 @@ class RoundOne extends Component {
                   </Grid.Row>
                 </Grid>
 
-                <Link to={`${this.redirectUser()}`}><Button size='large' color='olive' onClick={() =>{
+                <br></br>
+                <br></br>
+
+                <Link to={`${this.redirectUser()}`}><Button size='large' color='purple' onClick={() =>{
                   if (this.props.playersHand.length !== 5) {
                     alert('You must choose 5 cards before moving on to the next round.')
                   } else {

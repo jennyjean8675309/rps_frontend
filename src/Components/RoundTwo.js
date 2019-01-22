@@ -22,7 +22,7 @@ class RoundTwo extends Component {
       <div>
         <h1>Training Phase!</h1>
 
-        <Button size='large' color='olive' onClick={() =>{
+        <Button size='large' color='purple' onClick={() =>{
             if (this.state.cardsDealt === false) {
             this.props.secondPlayerDeal(this.props.soldierAndUpgradeDeck)
             this.setState({ cardsDealt: true })
@@ -79,7 +79,7 @@ class RoundTwo extends Component {
           </Grid.Row>
         </Grid>
 
-        <Link to={this.redirectUser()}><Button size='large' color='olive' onClick={() =>{
+        <Link to={this.redirectUser()}><Button size='large' color='purple' onClick={() =>{
           if (this.props.playersHand.length < 6) {
             alert('You must choose at least 1 special ops card or foot soldier before moving onto the next round.')
           } else {

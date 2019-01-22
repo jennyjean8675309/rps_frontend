@@ -59,7 +59,7 @@ class Fight extends Component {
           <h3>{`The Enemy: ${this.props.computersScore}`}</h3>
         </Modal.Content>
         <Modal.Actions>
-          <Button color='olive' onClick={this.handleClose} inverted>
+          <Button color='violet' onClick={this.handleClose} inverted>
             See the Carnage
           </Button>
         </Modal.Actions>
@@ -95,7 +95,7 @@ class Fight extends Component {
           </Grid.Row>
         </Grid>
 
-        <Link to='/round_one' ><Button size='large' color='olive' >Play Again</Button></Link>
+        <Link to='/home' ><Button size='large' color='purple' >Play Again</Button></Link>
       </div>
     )
   }
