@@ -8,11 +8,11 @@ import RoundOne from './Components/RoundOne';
 import RoundTwo from './Components/RoundTwo';
 import FinalRound from './Components/FinalRound';
 import Fight from './Components/Fight';
+import Leaderboard from './Components/Leaderboard';
 import { connect } from 'react-redux';
 import { fetchingToken, fetchingSoldiers, fetchingSoldierUpgrades, fetchingUsers } from './actions/actions';
 
 class App extends Component {
-
   componentDidMount(){
     this.props.fetchToken()
     this.props.fetchSoldiers()
@@ -25,6 +25,8 @@ class App extends Component {
       <div className='App'>
         <NavBar />
         <Switch>
+          <Route exact path='/leaderboard' component={Leaderboard} />
+
           <Route exact path='/fight' component={Fight} />
 
           <Route exact path='/final_round' component={FinalRound} />

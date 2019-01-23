@@ -7,7 +7,7 @@ import { playerDeployArmy, computerDeployArmy, setPlayersScore, setPlayersArmy, 
 
 class FinalRound extends Component {
   state = {
-    filteredArmy: [],
+    filteredArmy: this.props.playersHand,
     armyId: null
   }
 
@@ -29,11 +29,12 @@ class FinalRound extends Component {
       <div>
         <Form>
           <Form.Field>
-            <h1>Which army would you like to deploy, General? </h1>
+            <h1 className='page-header'>Which army would you like to deploy, General? </h1>
             <b>{this.state.value}</b>
           </Form.Field>
           <Form.Field>
             <Radio
+              className='radio-label'
               id='1'
               label='Rock'
               name='radioGroup'
@@ -44,6 +45,7 @@ class FinalRound extends Component {
           </Form.Field>
           <Form.Field>
             <Radio
+              className='radio-label'
               id='2'
               label='Paper'
               name='radioGroup'
@@ -54,6 +56,7 @@ class FinalRound extends Component {
           </Form.Field>
           <Form.Field>
             <Radio
+              className='radio-label'
               id='3'
               label='Scissors'
               name='radioGroup'
@@ -84,6 +87,9 @@ class FinalRound extends Component {
               ))}
           </Grid.Row>
         </Grid>
+
+        <br></br>
+        <br></br>
 
         <Link to='/fight'><Button size='large' color='purple' onClick={() =>{
           let playersScore = this.tallyScore(this.state.filteredArmy)

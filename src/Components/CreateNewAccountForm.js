@@ -23,7 +23,12 @@ class CreateNewAccountForm extends Component{
     let new_user_info = { user: {
       username: this.state.username,
       password: this.state.password,
-      high_score: 0
+      high_score: 0,
+      wins: 0,
+      losses: 0,
+      latest_stat: null,
+      consecutive_wins: 0,
+      highest_consecutive_wins: 0
       }
     }
     this.props.createAccount(new_user_info)

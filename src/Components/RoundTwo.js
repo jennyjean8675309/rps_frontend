@@ -20,7 +20,7 @@ class RoundTwo extends Component {
   render(){
     return (
       <div>
-        <h1>Training Phase!</h1>
+        <h1 className='page-header'>Training Phase!</h1>
 
         <Button size='large' color='purple' onClick={() =>{
             if (this.state.cardsDealt === false) {
@@ -58,7 +58,7 @@ class RoundTwo extends Component {
             <br></br>
             <br></br>
           </div> }
-        <h2>Your armies...</h2>
+        <h2>Your army...</h2>
 
         <Grid>
           <Grid.Row columns={5}>
@@ -78,6 +78,9 @@ class RoundTwo extends Component {
               ))}
           </Grid.Row>
         </Grid>
+
+        <br></br>
+        <br></br>
 
         <Link to={this.redirectUser()}><Button size='large' color='purple' onClick={() =>{
           if (this.props.playersHand.length < 6) {

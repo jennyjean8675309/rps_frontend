@@ -33,6 +33,7 @@ const SET_COMPUTERS_ARMY = 'SET_COMPUTERS_ARMY'
 const SET_PLAYERS_FINAL_SCORE = 'SET_PLAYERS_FINAL_SCORE'
 const SET_COMPUTERS_FINAL_SCORE = 'SET_COMPUTERS_FINAL_SCORE'
 const LOGOUT = 'LOGOUT'
+const UPDATE_USER = 'UPDATE_USER'
 
 const setSoldiers = (soldierData) =>{
   return { type: SET_SOLDIERS, soldiers: soldierData };
@@ -139,6 +140,10 @@ const logoutUser = () =>{
   return { type: LOGOUT }
 }
 
+const updateUser = (user) =>{
+  return { type: UPDATE_USER, updatedUser: user }
+}
+
 const postingLogin = (user_info) =>{
   return (dispatch) =>{
   fetch(LOGIN_URL, {
@@ -237,4 +242,25 @@ const fetchingUsers = () =>{
   }
 }
 
-export { setSoldiers, postingLogin, postingNewUser, fetchingToken, fetchingSoldiers, fetchingSoldierUpgrades, fetchingUsers, roundOneComputerDeal, roundOnePlayerDeal, addSoldierToPlayersHand, removeSoldierFromPlayersFirstDeal, computerSelectsSoldiers, setCombinedDeck, roundTwoComputerDeal, roundTwoPlayerDeal, addSoldierOrUpgradeToPlayersHand, removeSoldierFromPlayersSecondDeal, computerSelectsUpgrades, playerDeployArmy, computerDeployArmy, setPlayersScore, setPlayersArmy, setComputersScore, setComputersArmy, setPlayersFinalScore, setComputersFinalScore, logoutUser };
+const updateUserStats = (updatedStats, userId) =>{
+  console.log('updated stats sent to back end...', updatedStats)
+  let token = localStorage.getItem('token')
+  return (dispatch) =>{
+    fetch(`${USERS_URL}/${userId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-type": "application/json",
+        "Accept": "application/json",
+        "Authentication": `Bearer ${token}`
+      },
+      body: JSON.stringify(updatedStats)
+    })
+    .then(response => response.json())
+    .then(data => {
+      dispatch(setCurrentUser(data))
+      dispatch(updateUser(data))
+    })
+  }
+}
+
+export { setSoldiers, postingLogin, postingNewUser, fetchingToken, fetchingSoldiers, fetchingSoldierUpgrades, fetchingUsers, roundOneComputerDeal, roundOnePlayerDeal, addSoldierToPlayersHand, removeSoldierFromPlayersFirstDeal, computerSelectsSoldiers, setCombinedDeck, roundTwoComputerDeal, roundTwoPlayerDeal, addSoldierOrUpgradeToPlayersHand, removeSoldierFromPlayersSecondDeal, computerSelectsUpgrades, playerDeployArmy, computerDeployArmy, setPlayersScore, setPlayersArmy, setComputersScore, setComputersArmy, setPlayersFinalScore, setComputersFinalScore, logoutUser, updateUserStats };

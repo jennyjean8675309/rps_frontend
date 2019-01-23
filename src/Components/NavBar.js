@@ -25,8 +25,6 @@ class NavBar extends Component{
     }
   }
 
-  //This function is being called but doesn't recognize currentUser update
-
   logOut = (user) =>{
     this.props.logout()
     localStorage.clear()
@@ -42,6 +40,8 @@ class NavBar extends Component{
 
           <Menu.Item name='how_to_play' active={activeItem === 'how_to_play'} onClick={this.handleItemClick} href='/how_to_play'>How To Play
           </Menu.Item>
+
+          <Menu.Item name='leaderboard' active={activeItem === 'leaderboard'} onClick={this.handleItemClick} href='/leaderboard'>Leaderboard</Menu.Item>
 
           <Menu.Menu position='right'>
             { this.props.currentUser ? <><Menu.Item>{this.props.currentUser.username}</Menu.Item><Menu.Item name='log_out' active={activeItem === 'log_out'} onClick={this.handleItemClick}>Log Out</Menu.Item></> : <Menu.Item name='sign_in' active={activeItem === 'sign_in'} onClick={this.show('blurring')}>Sign In</Menu.Item> }

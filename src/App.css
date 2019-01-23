@@ -28,3 +28,13 @@ body {
   margin-bottom: 0;
   padding-bottom: 0;
 }
+
+.page-header {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 45px;
+}
+
+.radio-label {
+  font-family: 'Permanent Marker', cursive;
+  font-size: 50px;
+}

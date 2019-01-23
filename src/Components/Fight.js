@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Grid, Modal, Header, Button } from 'semantic-ui-react';
 import SoldierCard from './SoldierCard';
-import { setPlayersFinalScore, setComputersFinalScore } from '../actions/actions'
+import { setPlayersFinalScore, setComputersFinalScore, updateUserStats } from '../actions/actions'
 
 class Fight extends Component {
   constructor(){
@@ -11,12 +11,16 @@ class Fight extends Component {
     this.state = {
       computersArmy: null,
       bonusWinner: null,
-      winner: null,
       modalOpen: true
     }
   }
 
-  handleClose = () => this.setState({ modalOpen: false })
+  handleClose = () =>{
+    this.setState({ modalOpen: false })
+    if (this.props.user){
+      this.update()
+    }
+  }
 
   componentDidMount(){
     let compArmy = this.whichArmy(this.props.computersArmy)
@@ -43,27 +47,28 @@ class Fight extends Component {
         onClose={this.handleClose}
         basic
         size='small'
+        dimmer='blurring'
         >
-        <Header>
-          <h1>{this.whoWins()}</h1>
-        </Header>
-        <Modal.Content>
-          <h2>{`The Enemy chose to deploy ${this.state.computersArmy}!`}</h2>
-        </Modal.Content>
-        <Modal.Content>
-          <h2>{`${this.state.bonusWinner}`}</h2>
-        </Modal.Content>
-        <Modal.Content>
-          <h2>Final Scores...</h2>
-          <h3>{`You: ${this.props.playersScore}`}</h3>
-          <h3>{`The Enemy: ${this.props.computersScore}`}</h3>
-        </Modal.Content>
-        <Modal.Actions>
-          <Button color='violet' onClick={this.handleClose} inverted>
-            See the Carnage
-          </Button>
-        </Modal.Actions>
-      </Modal>
+          <Modal.Header>
+            <h1>{this.whoWins(this.props.playersScore, this.props.computersScore)[0]}</h1>
+          </Modal.Header>
+          <Modal.Content>
+            <h2>{`The Enemy chose to deploy ${this.state.computersArmy}!`}</h2>
+          </Modal.Content>
+          <Modal.Content>
+            <h2>{`${this.state.bonusWinner}`}</h2>
+          </Modal.Content>
+          <Modal.Content>
+            <h2>Final Scores...</h2>
+            <h3>{`You: ${this.props.playersScore}`}</h3>
+            <h3>{`The Enemy: ${this.props.computersScore}`}</h3>
+          </Modal.Content>
+          <Modal.Actions>
+            <Button color='violet' onClick={this.handleClose} inverted>
+              See the Carnage
+            </Button>
+          </Modal.Actions>
+        </Modal>
 
         <h2>Your army...</h2>
         <Grid>
@@ -72,9 +77,7 @@ class Fight extends Component {
               <Grid.Column key={`${soldier.points}-${soldier.id}`}>
                 <SoldierCard
                   soldier={soldier}
-                  playerAddSoldier={this.props.playerAddSoldier}
-                  playerRemoveSoldier={this.props.playerRemoveSoldier}
-                   />
+                />
               </Grid.Column>
               ))}
           </Grid.Row>
@@ -87,17 +90,73 @@ class Fight extends Component {
               <Grid.Column key={`${soldier.points}-${soldier.id}`}>
                 <SoldierCard
                   soldier={soldier}
-                  playerAddSoldier={this.props.playerAddSoldier}
-                  playerRemoveSoldier={this.props.playerRemoveSoldier}
-                   />
+                />
               </Grid.Column>
               ))}
           </Grid.Row>
         </Grid>
 
-        <Link to='/home' ><Button size='large' color='purple' >Play Again</Button></Link>
+        <Link to='/home' ><Button size='large' color='purple'>Play Again</Button></Link>
       </div>
     )
+  }
+
+  setUserHighScore = (currentUser) =>{
+    if (this.props.user && this.props.playersScore > currentUser.high_score) {
+      return this.props.playersScore
+    } else {
+      return currentUser.score
+    }
+  }
+
+  collectUserStatsForTie = (currentUser, currentUserId) =>{
+    return {
+      latest_stat: 'tie',
+      consecutive_wins: 0,
+      high_score: this.setUserHighScore(currentUser)
+    }
+  }
+
+  collectUserStatsForLoser = (currentUser, currentUserId) =>{
+    return {
+    high_score: this.setUserHighScore(currentUser),
+    latest_stat: 'loss',
+    losses: currentUser.losses + 1,
+    consecutive_wins: 0
+    }
+  }
+
+  collectUserStatsForWinner = (currentUser) =>{
+    console.log(currentUser)
+    let highest_consecutive_wins;
+    if (currentUser.highest_consecutive_wins > currentUser.consecutive_wins + 1) {
+      highest_consecutive_wins = currentUser.highest_consecutive_wins
+    } else {
+      highest_consecutive_wins = currentUser.consecutive_wins + 1
+    }
+    let updated_user_info = {
+      high_score: this.setUserHighScore(currentUser),
+      latest_stat: 'win',
+      wins: currentUser.wins + 1,
+      consecutive_wins: currentUser.consecutive_wins + 1,
+      highest_consecutive_wins: highest_consecutive_wins
+    }
+    console.log('updated info...', updated_user_info)
+    return updated_user_info
+  }
+
+  update = () =>{
+    let id = this.props.user.id
+    if (this.whoWins(this.props.playersScore, this.props.computersScore)[1] === 'tie') {
+      let updatedStats = this.collectUserStatsForTie(this.props.user)
+      this.props.updateUser(updatedStats, id)
+    } else if (this.whoWins(this.props.playersScore, this.props.computersScore)[1] === 'win') {
+      let updatedStats = this.collectUserStatsForWinner(this.props.user)
+      this.props.updateUser(updatedStats, id)
+    } else if (this.whoWins(this.props.playersScore, this.props.computersScore)[1] === 'loss') {
+      let updatedStats = this.collectUserStatsForLoser(this.props.user)
+      this.props.updateUser(updatedStats, id)
+    }
   }
 
   whichArmy = (armyId) =>{
@@ -130,11 +189,11 @@ class Fight extends Component {
 
   whoWins = (playersScore, computersScore) =>{
     if (this.props.playersScore === this.props.computersScore) {
-      return "It's a tie!"
+      return ["It's a tie!", 'tie']
     } else if (this.props.playersScore > this.props.computersScore) {
-      return "You win General!"
+      return ["You win General!", 'win']
     } else {
-      return "The Enemy has won this battle."
+      return ["The Enemy has won this battle.", 'loss']
     }
   }
 }
@@ -145,14 +204,13 @@ const mapStateToProps = (state) =>{
   playersHand: state.playersHand,
   computersHand: state.computersHand,
   playersScore: state.playersScore,
-  computersScore: state.computersScore
+  computersScore: state.computersScore,
+  user: state.currentUser
  }
 }
 
 export default connect(mapStateToProps, {
   finalScorePlayer: setPlayersFinalScore,
-  finalScoreComputer: setComputersFinalScore
+  finalScoreComputer: setComputersFinalScore,
+  updateUser: updateUserStats
 })(Fight);
-
-//Player stats - record consecutive wins, total number of wins and losses?
-//Modal popup for leaderboard stats

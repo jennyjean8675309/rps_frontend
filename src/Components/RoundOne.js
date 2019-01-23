@@ -16,7 +16,7 @@ class RoundOne extends Component {
   render(){
     return (
       <div>
-        <h1>Enlistment Phase!</h1>
+        <h1 className='page-header'>Enlistment Phase!</h1>
 
         <Button size='large' color='purple' onClick={() =>{
           if (this.state.cardsDealt === false) {
@@ -48,7 +48,7 @@ class RoundOne extends Component {
               </Grid.Row>
             </Grid>
 
-            <h2>Click on 5 soldiers to add them to an army.</h2>
+            <h2>Click on 5 soldiers to add them to your army.</h2>
           </div> : null }
 
           { this.props.playersHand.length > 0 ?
@@ -56,7 +56,7 @@ class RoundOne extends Component {
               <br></br>
               <br></br>
 
-              <h2>Your armies...</h2>
+              <h2>Your army...</h2>
                 <Grid>
                   <Grid.Row columns={5}>
                     {this.props.playersHand.map(soldier =>(
