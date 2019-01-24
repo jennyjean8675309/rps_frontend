@@ -48,15 +48,15 @@ class RoundOne extends Component {
               </Grid.Row>
             </Grid>
 
-            <h2>Click on 5 soldiers to add them to your army.</h2>
+            <h2 className='game-text'>Click on 5 soldiers to add them to your army.</h2>
+            <h2 className='game-text'>Note: Your army will consist of up to three different platoons, but you can only deploy one platoon against The Enemy.</h2>
           </div> : null }
 
           { this.props.playersHand.length > 0 ?
             <div>
               <br></br>
-              <br></br>
 
-              <h2>Your army...</h2>
+              <h2 className='game-text'>Your army...</h2>
                 <Grid>
                   <Grid.Row columns={5}>
                     {this.props.playersHand.map(soldier =>(

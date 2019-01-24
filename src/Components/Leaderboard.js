@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Modal } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
+import { Modal, List, Button } from 'semantic-ui-react';
 
 class Leaderboard extends Component {
   constructor(){
@@ -14,26 +15,68 @@ class Leaderboard extends Component {
 
   render(){
     return (
+    <div>
       <Modal dimmer='blurring' onClose={this.close} open={this.state.modalOpen}>
         <Modal.Header>
           <h1 className='page-header'>General's Leaderboard</h1>
         </Modal.Header>
         <Modal.Content>
-          <h2>High Scores...</h2>
+          <h2 className='leaderboard-title one'>High Scores...</h2>
+
+          <List divided verticalAlign='middle'>
+            {this.filterTopScores().map(user => <>
+            <List.Item>
+              <List.Content floated='right'>
+              <h3>{user.high_score}</h3>
+              </List.Content>
+
+              <List.Content>
+              <h3>{user.username}</h3>
+              </List.Content>
+            </List.Item>
+          </>
+            )}
+          </List>
+
+          <h2 className='leaderboard-title' id='two'>Most Consecutive Wins...</h2>
+
+          <List divided verticalAlign='middle'>
+            {this.filterMostConsecutiveWins().map(user => <>
+            <List.Item>
+              <List.Content floated='right'>
+              <h3>{user.highest_consecutive_wins}</h3>
+              </List.Content>
+
+              <List.Content>
+              <h3>{user.username}</h3>
+              </List.Content>
+            </List.Item>
+          </>
+            )}
+          </List>
+
+
+          <h2 className='leaderboard-title' id='three'>Highest Percentage of Wins...</h2>
+
+          <List divided verticalAlign='middle'>
+            {this.filterHighestWinPercentage().map(user => <>
+            <List.Item>
+              <List.Content floated='right'>
+              <h3>{`${this.findPercentageOfWins(user)}%`}</h3>
+              </List.Content>
+
+              <List.Content>
+              <h3>{user.username}</h3>
+              </List.Content>
+            </List.Item>
+          </>
+            )}
+          </List>
         </Modal.Content>
-          {this.filterTopScores().map(user => <Modal.Content><h3>{`${user.username}...${user.high_score}`}</h3></Modal.Content>
-          )}
-        <Modal.Content>
-          <h2>Most Consecutive Wins...</h2>
-        </Modal.Content>
-          {this.filterMostConsecutiveWins().map(user => <Modal.Content><h3>{`${user.username}...${user.highest_consecutive_wins}`}</h3></Modal.Content>
-          )}
-        <Modal.Content>
-          <h2>Highest Percentage of Wins...</h2>
-        </Modal.Content>
-          {this.filterHighestWinPercentage().map(user => <Modal.Content><h3>{`${user.username}...${this.findPercentageOfWins(user)}`}</h3></Modal.Content>
-          )}
       </Modal>
+
+      <Link to='/home' ><Button size='large' color='purple' id='button'>Play the Game</Button></Link>
+    </div>
     )
   }
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { Grid, Modal, Header, Button } from 'semantic-ui-react';
+import { Grid, Modal, Button } from 'semantic-ui-react';
 import SoldierCard from './SoldierCard';
 import { setPlayersFinalScore, setComputersFinalScore, updateUserStats } from '../actions/actions'
 
@@ -70,7 +70,7 @@ class Fight extends Component {
           </Modal.Actions>
         </Modal>
 
-        <h2>Your army...</h2>
+        <h2 className='game-text'>Your army...</h2>
         <Grid>
           <Grid.Row columns={10}>
             {this.props.playersHand.map(soldier =>(
@@ -83,7 +83,7 @@ class Fight extends Component {
           </Grid.Row>
         </Grid>
 
-        <h2>The Enemy's army...</h2>
+        <h2 className='game-text'>The Enemy's army...</h2>
         <Grid>
           <Grid.Row columns={10}>
             {this.props.computersHand.map(soldier =>(
@@ -95,6 +95,9 @@ class Fight extends Component {
               ))}
           </Grid.Row>
         </Grid>
+
+        <br></br>
+        <br></br>
 
         <Link to='/home' ><Button size='large' color='purple'>Play Again</Button></Link>
       </div>

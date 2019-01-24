@@ -31,10 +31,11 @@ class RoundTwo extends Component {
         Deal Me Some More Soldiers
         </Button>
 
+        <br></br>
+        <br></br>
+
         { this.props.roundTwoPlayerDeal.length > 0 ?
           <div>
-            <h2>Click on 5 foot soldier or special ops cards to add them to your army.</h2>
-
             <Grid>
               <Grid.Row columns={7}>
                 {this.props.roundTwoPlayerDeal.map(soldier =>(
@@ -50,48 +51,49 @@ class RoundTwo extends Component {
                   ))}
               </Grid.Row>
             </Grid>
-          </div>
-        : <div>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
-          </div> }
-        <h2>Your army...</h2>
 
-        <Grid>
-          <Grid.Row columns={5}>
-            {this.props.playersHand.slice (0, 5).map(soldier =>(
-              <Grid.Column key={`${soldier.points}-${soldier.id}`}>
-                <SoldierCard
-                  soldier={soldier} />
-              </Grid.Column>
-              ))}
-          </Grid.Row>
-          <Grid.Row columns={5}>
-            {this.props.playersHand.slice(5).map(soldier =>(
-              <Grid.Column key={`${soldier.points}-${soldier.id}`}>
-                <SoldierCard
-                  soldier={soldier} />
-              </Grid.Column>
-              ))}
-          </Grid.Row>
-        </Grid>
+            <h2 className='game-text'>Click on 5 foot soldier or special ops cards to add them to your army.</h2>
+            <h2 className='game-text'>Take Note: Special Ops points only count for as many foot soldiers you have in the same platoon.</h2>
 
-        <br></br>
-        <br></br>
+            <br></br>
+            <br></br>
 
-        <Link to={this.redirectUser()}><Button size='large' color='purple' onClick={() =>{
-          if (this.props.playersHand.length < 6) {
-            alert('You must choose at least 1 special ops card or foot soldier before moving onto the next round.')
-          } else {
-          this.props.computerSelectsUpgrades(this.props.computerDealRoundTwo, this.props.computersHand)
-          alert('URGENT MESSAGE FROM THE FRONT LINES: General, the Reconnaissance Team is reporting that The Enemy is ready for attack. You must choose an army to deploy now!')
-          }
-        }}>Done!</Button></Link>
-      </div>
-    )
+            <h2 className='game-text'>Your army...</h2>
+
+            <Grid>
+              <Grid.Row columns={5}>
+                {this.props.playersHand.slice (0, 5).map(soldier =>(
+                  <Grid.Column key={`${soldier.points}-${soldier.id}`}>
+                    <SoldierCard
+                      soldier={soldier} />
+                  </Grid.Column>
+                  ))}
+              </Grid.Row>
+              <Grid.Row columns={5}>
+                {this.props.playersHand.slice(5).map(soldier =>(
+                  <Grid.Column key={`${soldier.points}-${soldier.id}`}>
+                    <SoldierCard
+                      soldier={soldier} />
+                  </Grid.Column>
+                  ))}
+              </Grid.Row>
+            </Grid>
+
+            <br></br>
+            <br></br>
+
+            <Link to={this.redirectUser()}><Button size='large' color='purple' onClick={() =>{
+              if (this.props.playersHand.length < 6) {
+                alert('You must choose at least 1 special ops card or foot soldier before moving onto the next round.')
+              } else {
+              this.props.computerSelectsUpgrades(this.props.computerDealRoundTwo, this.props.computersHand)
+              alert('URGENT MESSAGE FROM THE FRONT LINES: General, the Reconnaissance Team is reporting that The Enemy is ready for attack. You must choose a platoon to deploy now!')
+              }
+            }}>Done!</Button></Link>
+
+          </div> : null }
+        </div>
+      )
   }
 
   combineDecksAndShuffle = (soldiers, upgrades) =>{

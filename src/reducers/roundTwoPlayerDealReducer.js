@@ -17,6 +17,8 @@ export const roundTwoPlayerDealReducer = (roundTwoPlayerDeal = [], action) =>{
       } else {
       let index = discard.indexOf(action.selectedCard)
       return [...discard.slice(0, index), ...discard.slice(index + 1)]}
+    case 'CLEAR_PLAYERS_SECOND_DEAL':
+      return []
     default:
       return roundTwoPlayerDeal
   }

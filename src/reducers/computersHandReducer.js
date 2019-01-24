@@ -48,6 +48,8 @@ export const computersHandReducer = (computersHand = [], action) =>{
       console.log("computer making it's choice...", action.selectedArmy)
       let army = [...computersHand].filter(card => card.soldier_type_id === action.selectedArmy)
       return army
+    case 'CLEAR_COMPUTERS_HAND':
+      return []
     default:
       return computersHand
   }

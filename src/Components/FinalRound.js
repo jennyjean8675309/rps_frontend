@@ -7,14 +7,16 @@ import { playerDeployArmy, computerDeployArmy, setPlayersScore, setPlayersArmy, 
 
 class FinalRound extends Component {
   state = {
-    filteredArmy: this.props.playersHand,
-    armyId: null
+    filteredArmy: [],
+    armyId: null,
+    playerSelectedArmy: false
   }
 
   handleChange = (e, { value }) =>{
     this.setState({ value })
     this.setState({
-      armyId: Number(e.currentTarget.firstElementChild.id)
+      armyId: Number(e.currentTarget.firstElementChild.id),
+      playerSelectedArmy: true
     })
     this.filterArmy(e.currentTarget.firstElementChild.id)
     let computersArmy = this.tallyComputersScores(this.props.computersHand)[0]
@@ -24,12 +26,25 @@ class FinalRound extends Component {
     this.props.computerSetArmy(computersArmy)
   }
 
+  redirectToFight = () =>{
+    if (this.state.playerSelectedArmy === false) {
+      return '/final_round'
+    } else {
+      return '/fight'
+    }
+  }
+
   render(){
     return (
       <div>
         <Form>
           <Form.Field>
-            <h1 className='page-header'>Which army would you like to deploy, General? </h1>
+            <h1 className='page-header'>Which platoon would you like to deploy, General? </h1>
+
+            <h2 className='game-text'>Click on any platoon to see your soldiers.</h2>
+
+            <br></br>
+
             <b>{this.state.value}</b>
           </Form.Field>
           <Form.Field>
@@ -67,7 +82,7 @@ class FinalRound extends Component {
           </Form.Field>
         </Form>
 
-        <h2>Your army...</h2>
+        <h2 className='game-text'>Your platoon...</h2>
 
         <Grid>
           <Grid.Row columns={5}>
@@ -91,12 +106,15 @@ class FinalRound extends Component {
         <br></br>
         <br></br>
 
-        <Link to='/fight'><Button size='large' color='purple' onClick={() =>{
+        <Link to={`${this.redirectToFight()}`}><Button size='large' color='purple' onClick={() =>{
+          if (this.state.playerSelectedArmy === false) {
+            alert('You must choose a platoon to deploy.')
+          } else {
           let playersScore = this.tallyScore(this.state.filteredArmy)
           console.log(playersScore)
           this.props.playerSetArmy(this.state.armyId)
           this.props.playerSelectArmy(this.state.filteredArmy)
-          this.props.playerSetScore(playersScore)
+          this.props.playerSetScore(playersScore)}
         }}>FIGHT!</Button></Link>
       </div>
     )

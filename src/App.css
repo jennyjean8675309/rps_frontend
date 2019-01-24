@@ -11,6 +11,7 @@ body {
   margin-left: 75px;
   margin-right: 75px;
   text-align: left;
+  margin-top: 100px;
 }
 
 .home-header {
@@ -37,4 +38,43 @@ body {
 .radio-label {
   font-family: 'Permanent Marker', cursive;
   font-size: 50px;
+}
+
+.leaderboard-title {
+  font-family: 'Covered By Your Grace', cursive;
+  font-size: 40px;
+}
+
+.one {
+  background-color: rgb(243, 182, 121);
+}
+
+#two {
+  background-color: rgb(185, 250, 188);
+}
+
+.game-text {
+  font-family: 'Covered By Your Grace', cursive;
+  font-size: 50px;
+}
+
+#three {
+  background-color: rgb(172, 240, 252);
+}
+
+#fight {
+  position: fixed;
+  font-family: 'Permanent Marker', cursive;
+  font-size: 250px;
+  top: 27%;
+  left: 27%;
+  z-index: 1;
+}
+
+#grid {
+  margin-left: 100px;
+}
+
+#button {
+  margin-top: 20%;
 }

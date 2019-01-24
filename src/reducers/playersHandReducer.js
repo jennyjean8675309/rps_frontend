@@ -21,6 +21,8 @@ export const playersHandReducer = (playersHand = [], action) =>{
       return updatedHand
     case 'PLAYER_DEPLOY_ARMY':
       return action.selectedArmy
+    case 'CLEAR_PLAYERS_HAND':
+      return []
     default:
       return playersHand
   }

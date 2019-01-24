@@ -10,6 +10,8 @@ export const roundOneComputerDealReducer = (roundOneComputerDeal = [], action) =
         } i++;
       }
       return newDeal
+    case 'CLEAR_COMPUTERS_DEAL':
+      return []
     default:
       return roundOneComputerDeal
   }

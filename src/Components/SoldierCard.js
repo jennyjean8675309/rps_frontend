@@ -14,7 +14,7 @@ class SoldierCard extends Component {
          </Card.Content>
 
          <Card.Content extra className='army-type'>
-           {`Army: ${this.whichType(this.props.soldier)}`}
+           {`Platoon: ${this.whichType(this.props.soldier)}`}
          </Card.Content>
       </Card>
     )

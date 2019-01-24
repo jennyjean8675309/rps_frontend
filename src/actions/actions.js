@@ -34,6 +34,12 @@ const SET_PLAYERS_FINAL_SCORE = 'SET_PLAYERS_FINAL_SCORE'
 const SET_COMPUTERS_FINAL_SCORE = 'SET_COMPUTERS_FINAL_SCORE'
 const LOGOUT = 'LOGOUT'
 const UPDATE_USER = 'UPDATE_USER'
+const CLEAR_PLAYERS_HAND = 'CLEAR_PLAYERS_HAND'
+const CLEAR_PLAYERS_DEAL = 'CLEAR_PLAYERS_DEAL'
+const CLEAR_PLAYERS_SECOND_DEAL = 'CLEAR_PLAYERS_SECOND_DEAL'
+const CLEAR_COMPUTERS_HAND = 'CLEAR_COMPUTERS_HAND'
+const CLEAR_COMPUTERS_DEAL = 'CLEAR_COMPUTERS_DEAL'
+const CLEAR_COMPUTERS_SECOND_DEAL = 'CLEAR_COMPUTERS_SECOND_DEAL'
 
 const setSoldiers = (soldierData) =>{
   return { type: SET_SOLDIERS, soldiers: soldierData };
@@ -142,6 +148,30 @@ const logoutUser = () =>{
 
 const updateUser = (user) =>{
   return { type: UPDATE_USER, updatedUser: user }
+}
+
+const clearPlayersHand = () =>{
+  return { type: CLEAR_PLAYERS_HAND }
+}
+
+const clearPlayersDeal = () =>{
+  return { type: CLEAR_PLAYERS_DEAL }
+}
+
+const clearPlayersSecondDeal = () =>{
+  return { type: CLEAR_PLAYERS_SECOND_DEAL }
+}
+
+const clearComputersHand = () =>{
+  return { type: CLEAR_COMPUTERS_HAND }
+}
+
+const clearComputersDeal = () =>{
+  return { type: CLEAR_COMPUTERS_DEAL }
+}
+
+const clearComputersSecondDeal = () =>{
+  return { type: CLEAR_COMPUTERS_SECOND_DEAL }
 }
 
 const postingLogin = (user_info) =>{
@@ -263,4 +293,4 @@ const updateUserStats = (updatedStats, userId) =>{
   }
 }
 
-export { setSoldiers, postingLogin, postingNewUser, fetchingToken, fetchingSoldiers, fetchingSoldierUpgrades, fetchingUsers, roundOneComputerDeal, roundOnePlayerDeal, addSoldierToPlayersHand, removeSoldierFromPlayersFirstDeal, computerSelectsSoldiers, setCombinedDeck, roundTwoComputerDeal, roundTwoPlayerDeal, addSoldierOrUpgradeToPlayersHand, removeSoldierFromPlayersSecondDeal, computerSelectsUpgrades, playerDeployArmy, computerDeployArmy, setPlayersScore, setPlayersArmy, setComputersScore, setComputersArmy, setPlayersFinalScore, setComputersFinalScore, logoutUser, updateUserStats };
+export { setSoldiers, postingLogin, postingNewUser, fetchingToken, fetchingSoldiers, fetchingSoldierUpgrades, fetchingUsers, roundOneComputerDeal, roundOnePlayerDeal, addSoldierToPlayersHand, removeSoldierFromPlayersFirstDeal, computerSelectsSoldiers, setCombinedDeck, roundTwoComputerDeal, roundTwoPlayerDeal, addSoldierOrUpgradeToPlayersHand, removeSoldierFromPlayersSecondDeal, computerSelectsUpgrades, playerDeployArmy, computerDeployArmy, setPlayersScore, setPlayersArmy, setComputersScore, setComputersArmy, setPlayersFinalScore, setComputersFinalScore, logoutUser, updateUserStats, clearPlayersHand, clearPlayersDeal, clearPlayersSecondDeal, clearComputersHand, clearComputersDeal, clearComputersSecondDeal };

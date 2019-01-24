@@ -11,6 +11,8 @@ export const roundTwoComputerDealReducer = (roundTwoComputerDeal = [], action) =
       }
       console.log(newDeal)
       return newDeal
+    case 'CLEAR_COMPUTERS_SECOND_DEAL':
+      return []
     default:
       return roundTwoComputerDeal
   }
