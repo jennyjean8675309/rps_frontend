@@ -66,15 +66,16 @@ body {
   position: fixed;
   font-family: 'Permanent Marker', cursive;
   font-size: 250px;
-  top: 27%;
-  left: 27%;
+  top: 35%;
+  left: 15%;
   z-index: 1;
-}
-
-#grid {
-  margin-left: 100px;
 }
 
 #button {
   margin-top: 20%;
+}
+
+#grid {
+  margin-left: 20px;
+  margin-right: 20px;
 }
